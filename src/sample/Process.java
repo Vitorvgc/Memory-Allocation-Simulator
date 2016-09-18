@@ -23,4 +23,8 @@ public class Process {
             System.out.println("WARNING: Process with negative values");
     }
 
+    public int getMemory() {
+        return this.memory;
+    }
+
 }

@@ -8,11 +8,15 @@ import java.util.ArrayList;
 public class Memory {
 
     private int totalMemory;
-    private int soMemory;
+    private Process so;
     private ArrayList<Node> memory;
 
-    public Memory() {
-
+    public Memory(int totalMemory, Process so) {
+        this.totalMemory = totalMemory;
+        this.so = so;
+        this.memory = new ArrayList<>();
+        this.memory.add(new Node(this.totalMemory - this.so.getMemory()));
+        this.memory.add(new Node(this.so.getMemory()));
     }
 
     public void allocateProcess(Process process) {
@@ -46,14 +50,14 @@ public class Memory {
         Process process;
 
         // Constructor to create an occupied node
-        public Node(int space, Process process) {
+        private Node(Process process) {
             this.free = false;
-            this.space = space;
+            this.space = process.getMemory();
             this.process = process;
         }
-        
+
         // Constructor to create a free node
-        public Node(int space) {
+        private Node(int space) {
             this.free = true;
             this.space = space;
             this.process = null;
