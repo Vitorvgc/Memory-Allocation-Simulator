@@ -18,7 +18,14 @@ public class Memory {
         this.so = so;
         this.memory = new ArrayList<>();
         this.memory.add(new Node(this.totalMemory - this.so.getMemory()));
-        this.memory.add(new Node(this.so.getMemory()));
+        this.memory.add(new Node(this.so));
+    }
+
+    // for test purporses
+    public void printMemory() {
+        for(Node n : this.memory)
+            System.out.printf("|%b - %d| ", n.free, n.size);
+        System.out.println();
     }
 
     public void allocateProcess(Process process, AllocationType type) {
@@ -34,39 +41,47 @@ public class Memory {
 
     }
 
-    private void allocateProcessWithFirstFit(Process p) {
+    private void allocateProcessWithFirstFit(Process process) {
+
+        for(int i = 0; i < this.memory.size(); i++) {
+            Node actual = this.memory.get(i);
+            if(actual.free && actual.size >= process.getMemory()) {
+                this.memory.get(i).size -= process.getMemory();
+                this.memory.add(i, new Node(process));
+                return;
+            }
+        }
+    }
+
+    private void allocateProcessWithBestFit(Process process) {
 
     }
 
-    private void allocateProcessWithBestFit(Process p) {
+    private void allocateProcessWithWorsttFit(Process process) {
 
     }
 
-    private void allocateProcessWithWorsttFit(Process p) {
-
-    }
-
-    private void allocateProcessWithNextFit(Process p) {
+    private void allocateProcessWithNextFit(Process process) {
 
     }
 
     private class Node {
 
         boolean free;
-        int space;
+        int size;
         Process process;
 
         // Constructor to create an occupied node
         private Node(Process process) {
             this.free = false;
-            this.space = process.getMemory();
+            this.size = process.getMemory();
             this.process = process;
         }
 
         // Constructor to create a free node
         private Node(int space) {
             this.free = true;
-            this.space = space;
+            this.size = space;
             this.process = null;
         }
     }
