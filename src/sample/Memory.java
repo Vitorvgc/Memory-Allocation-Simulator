@@ -32,10 +32,9 @@ public class Memory {
         switch(type) {
             case FIRST_FIT: return allocateProcessWithFirstFit(process);
             case BEST_FIT:  return allocateProcessWithBestFit(process);
-            case WORST_FIT: return allocateProcessWithWorsttFit(process);
+            case WORST_FIT: return allocateProcessWithWorstFit(process);
             case NEXT_FIT:  return allocateProcessWithNextFit(process);
         }
-        this.printMemory(); // test
         return false;
     }
 
@@ -89,9 +88,21 @@ public class Memory {
         return false;
     }
 
-    private boolean allocateProcessWithWorsttFit(Process process) {
+    private boolean allocateProcessWithWorstFit(Process process) {
 
-
+        int maxPosition = -1, maxSize = -1;
+        for(int i = 0; i < this.memory.size(); i++) {
+            Node actual = this.memory.get(i);
+            if (actual.free && actual.size > maxSize) {
+                maxPosition = i;
+                maxSize = this.memory.get(i).size;
+            }
+        }
+        if(maxPosition != -1 && maxSize >= process.getMemory()) {
+            this.memory.get(maxPosition).size -= process.getMemory();
+            this.memory.add(maxPosition, new Node(process));
+            return true;
+        }
         return false;
     }
 

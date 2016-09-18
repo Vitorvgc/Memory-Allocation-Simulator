@@ -28,13 +28,16 @@ public class Main extends Application {
 
         Memory memory = new Memory(100, so);
 
-        memory.allocateProcess(a, AllocationType.FIRST_FIT);
+        memory.allocateProcess(a, AllocationType.WORST_FIT);
+        memory.printMemory();
 
         memory.desallocateProcess(a);
 
-        memory.allocateProcess(b, AllocationType.FIRST_FIT);
+        memory.allocateProcess(b, AllocationType.WORST_FIT);
+        memory.printMemory();
 
-        memory.allocateProcess(c, AllocationType.FIRST_FIT);
+        memory.allocateProcess(c, AllocationType.WORST_FIT);
+        memory.printMemory();
 
         memory.desallocateProcess(b);
 
