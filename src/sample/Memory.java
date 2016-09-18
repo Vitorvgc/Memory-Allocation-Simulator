@@ -35,10 +35,26 @@ public class Memory {
             case WORST_FIT: allocateProcessWithWorsttFit(process); break;
             case NEXT_FIT:  allocateProcessWithNextFit(process);   break;
         }
+        this.printMemory(); // test
     }
 
     public void desallocateProcess(Process process) {
-
+        for(int i = 0; i < this.memory.size(); i++) {
+            Node node = this.memory.get(i);
+            if(node.process == process) {
+                this.memory.get(i).free();
+                if(i > 0 && this.memory.get(i-1).free) {
+                    this.memory.get(i).size += this.memory.get(i-1).size;
+                    this.memory.remove(--i);
+                }
+                if(i < this.memory.size() - 1 && this.memory.get(i+1).free) {
+                    this.memory.get(i).size += this.memory.get(i+1).size;
+                    this.memory.remove(i+1);
+                }
+                this.printMemory(); // test
+                return;
+            }
+        }
     }
 
     private void allocateProcessWithFirstFit(Process process) {
@@ -82,6 +98,12 @@ public class Memory {
         private Node(int space) {
             this.free = true;
             this.size = space;
+            this.process = null;
+        }
+
+        private void free() {
+            this.free = true;
+            this.size = this.process.getMemory();
             this.process = null;
         }
     }

@@ -19,17 +19,26 @@ public class Main extends Application {
         primaryStage.setScene(new Scene(root, 300, 275));
         primaryStage.show();
 
-        Memory memory = new Memory(100, new Process(20));
-        memory.printMemory();
+        // TEST
 
-        memory.allocateProcess(new Process(30), AllocationType.FIRST_FIT);
-        memory.printMemory();
+        Process so = new Process(20);
+        Process a = new Process(30);
+        Process b = new Process(20);
+        Process c = new Process(40);
 
-        memory.allocateProcess(new Process(20), AllocationType.FIRST_FIT);
-        memory.printMemory();
+        Memory memory = new Memory(100, so);
 
-        memory.allocateProcess(new Process(40), AllocationType.FIRST_FIT);
-        memory.printMemory();
+        memory.allocateProcess(a, AllocationType.FIRST_FIT);
+
+        memory.desallocateProcess(a);
+
+        memory.allocateProcess(b, AllocationType.FIRST_FIT);
+
+        memory.allocateProcess(c, AllocationType.FIRST_FIT);
+
+        memory.desallocateProcess(b);
+
+        memory.desallocateProcess(c);
     }
 
     public static void main(String[] args) {
