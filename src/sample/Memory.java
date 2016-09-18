@@ -28,14 +28,15 @@ public class Memory {
         System.out.println();
     }
 
-    public void allocateProcess(Process process, AllocationType type) {
+    public boolean allocateProcess(Process process, AllocationType type) {
         switch(type) {
-            case FIRST_FIT: allocateProcessWithFirstFit(process);  break;
-            case BEST_FIT:  allocateProcessWithBestFit(process);   break;
-            case WORST_FIT: allocateProcessWithWorsttFit(process); break;
-            case NEXT_FIT:  allocateProcessWithNextFit(process);   break;
+            case FIRST_FIT: return allocateProcessWithFirstFit(process);
+            case BEST_FIT:  return allocateProcessWithBestFit(process);
+            case WORST_FIT: return allocateProcessWithWorsttFit(process);
+            case NEXT_FIT:  return allocateProcessWithNextFit(process);
         }
         this.printMemory(); // test
+        return false;
     }
 
     public void desallocateProcess(Process process) {
@@ -57,28 +58,29 @@ public class Memory {
         }
     }
 
-    private void allocateProcessWithFirstFit(Process process) {
+    private boolean allocateProcessWithFirstFit(Process process) {
 
         for(int i = 0; i < this.memory.size(); i++) {
             Node actual = this.memory.get(i);
             if(actual.free && actual.size >= process.getMemory()) {
                 this.memory.get(i).size -= process.getMemory();
                 this.memory.add(i, new Node(process));
-                return;
+                return true;
             }
         }
+        return false;
     }
 
-    private void allocateProcessWithBestFit(Process process) {
-
+    private boolean allocateProcessWithBestFit(Process process) {
+        return false;
     }
 
-    private void allocateProcessWithWorsttFit(Process process) {
-
+    private boolean allocateProcessWithWorsttFit(Process process) {
+        return false;
     }
 
-    private void allocateProcessWithNextFit(Process process) {
-
+    private boolean allocateProcessWithNextFit(Process process) {
+        return false;
     }
 
     private class Node {
