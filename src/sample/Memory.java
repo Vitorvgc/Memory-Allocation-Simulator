@@ -13,6 +13,8 @@ public class Memory {
     private Process so;
     private ArrayList<Node> memory;
 
+    private int lastPosition; // used in next-fit allocation method
+
     public Memory(int totalMemory, Process so) {
         this.totalMemory = totalMemory;
         this.so = so;
@@ -38,6 +40,7 @@ public class Memory {
         return false;
     }
 
+    //TODO: Update lastPosition after removing nodes
     public void desallocateProcess(Process process) {
         for(int i = 0; i < this.memory.size(); i++) {
             Node node = this.memory.get(i);
@@ -64,6 +67,7 @@ public class Memory {
             if(actual.free && actual.size >= process.getMemory()) {
                 this.memory.get(i).size -= process.getMemory();
                 this.memory.add(i, new Node(process));
+                if(i < lastPosition) lastPosition++;
                 return true;
             }
         }
@@ -83,6 +87,7 @@ public class Memory {
         if(minPosition != -1) {
             this.memory.get(minPosition).size -= process.getMemory();
             this.memory.add(minPosition, new Node(process));
+            if(minPosition < lastPosition) lastPosition++;
             return true;
         }
         return false;
@@ -101,12 +106,24 @@ public class Memory {
         if(maxPosition != -1 && maxSize >= process.getMemory()) {
             this.memory.get(maxPosition).size -= process.getMemory();
             this.memory.add(maxPosition, new Node(process));
+            if(maxPosition < lastPosition) lastPosition++;
             return true;
         }
         return false;
     }
 
+    //TODO: Check functionality of the next-fit method
     private boolean allocateProcessWithNextFit(Process process) {
+
+        for(int i = lastPosition + 1; i != lastPosition; i = (i+1) % this.memory.size()) {
+            Node actual = this.memory.get(i);
+            if(actual.free && actual.size >= process.getMemory()) {
+                this.memory.get(i).size -= process.getMemory();
+                this.memory.add(i, new Node(process));
+                if(i < lastPosition) lastPosition++;
+                return true;
+            }
+        }
         return false;
     }
 
