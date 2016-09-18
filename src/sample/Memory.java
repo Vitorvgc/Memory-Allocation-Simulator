@@ -1,5 +1,7 @@
 package sample;
 
+import java.util.ArrayList;
+
 /**
  * Created by Vítor on 17/09/2016.
  */
@@ -7,7 +9,7 @@ public class Memory {
 
     private int totalMemory;
     private int soMemory;
-    private int memory;
+    private ArrayList<Node> memory;
 
     public Memory() {
 
@@ -35,5 +37,26 @@ public class Memory {
 
     private void allocateProcessWithNextFit(Process p) {
 
+    }
+
+    private class Node {
+
+        boolean free;
+        int space;
+        Process process;
+
+        // Constructor to create an occupied node
+        public Node(int space, Process process) {
+            this.free = false;
+            this.space = space;
+            this.process = process;
+        }
+        
+        // Constructor to create a free node
+        public Node(int space) {
+            this.free = true;
+            this.space = space;
+            this.process = null;
+        }
     }
 }
