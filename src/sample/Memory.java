@@ -1,5 +1,7 @@
 package sample;
 
+import Enums.AllocationType;
+
 import java.util.ArrayList;
 
 /**
@@ -19,8 +21,13 @@ public class Memory {
         this.memory.add(new Node(this.so.getMemory()));
     }
 
-    public void allocateProcess(Process process) {
-
+    public void allocateProcess(Process process, AllocationType type) {
+        switch(type) {
+            case FIRST_FIT: allocateProcessWithFirstFit(process);  break;
+            case BEST_FIT:  allocateProcessWithBestFit(process);   break;
+            case WORST_FIT: allocateProcessWithWorsttFit(process); break;
+            case NEXT_FIT:  allocateProcessWithNextFit(process);   break;
+        }
     }
 
     public void desallocateProcess(Process process) {
