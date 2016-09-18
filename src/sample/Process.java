@@ -11,6 +11,12 @@ public class Process {
     private int duration;
     private int memory;
 
+    public Process(int memory) {
+        this.creationTime = 0;
+        this.duration = Integer.MAX_VALUE;
+        this.memory = memory;
+    }
+
     public Process(int minCreationTime, int maxCreationTime, int minDuration, int maxDuration, int minMemory, int maxMemory) {
 
         Random random = new Random();
