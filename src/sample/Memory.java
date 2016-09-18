@@ -72,10 +72,26 @@ public class Memory {
     }
 
     private boolean allocateProcessWithBestFit(Process process) {
+
+        int minPosition = -1, minSize = Integer.MAX_VALUE;
+        for(int i = 0; i < this.memory.size(); i++) {
+            Node actual = this.memory.get(i);
+            if (actual.free && actual.size >= process.getMemory() && actual.size < minSize) {
+                minPosition = i;
+                minSize = this.memory.get(i).size;
+            }
+        }
+        if(minPosition != -1) {
+            this.memory.get(minPosition).size -= process.getMemory();
+            this.memory.add(minPosition, new Node(process));
+            return true;
+        }
         return false;
     }
 
     private boolean allocateProcessWithWorsttFit(Process process) {
+
+
         return false;
     }
 
