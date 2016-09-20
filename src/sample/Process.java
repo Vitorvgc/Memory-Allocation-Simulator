@@ -33,4 +33,12 @@ public class Process {
         return this.memory;
     }
 
+    public int getCreationTime() {
+        return this.creationTime;
+    }
+
+    public int getDuration() {
+        return this.duration;
+    }
+
 }
