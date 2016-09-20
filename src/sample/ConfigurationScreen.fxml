@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="599.0" prefWidth="362.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.ConfigurationController">
+   <children>
+      <TextField fx:id="nProcessText" alignment="CENTER" layoutX="93.0" layoutY="31.0" prefHeight="27.0" prefWidth="176.0" promptText="Número de processos">
+         <tooltip>
+            <Tooltip text="Quantidade de processos que serão criados" />
+         </tooltip></TextField>
+      <TextField fx:id="m1Text" alignment="CENTER" layoutX="93.0" layoutY="241.0" prefWidth="176.0" promptText="M1">
+         <tooltip>
+            <Tooltip text="Limite inferior do intervalo para gerar aleatoriamente a área ocupada por cada processo na memória(MB)" />
+         </tooltip></TextField>
+      <TextField fx:id="sizeMemoryText" alignment="CENTER" layoutX="93.0" layoutY="145.0" prefHeight="27.0" prefWidth="176.0" promptText="Tamanho da memória real">
+         <tooltip>
+            <Tooltip text="Tamanho da memória real (MB)" />
+         </tooltip></TextField>
+      <TextField fx:id="sizeSOText" alignment="CENTER" layoutX="93.0" layoutY="195.0" prefHeight="27.0" prefWidth="176.0" promptText="Tamanho do S.O.">
+         <tooltip>
+            <Tooltip text="Tamanho da área de memória ocupada pelo sistema operacional (MB)" />
+         </tooltip></TextField>
+      <ChoiceBox fx:id="typeBox" layoutX="93.0" layoutY="89.0" prefHeight="27.0" prefWidth="176.0">
+         <tooltip>
+            <Tooltip text="Estratégia de alocação utilizada" />
+         </tooltip></ChoiceBox>
+      <TextField fx:id="m2Text" alignment="CENTER" layoutX="93.0" layoutY="291.0" prefWidth="176.0" promptText="M2">
+         <tooltip>
+            <Tooltip text="Limite superior do intervalo para gerar aleatoriamente a área ocupada por cada processo na memória(MB)" />
+         </tooltip>
+      </TextField>
+      <TextField fx:id="tc1Text" alignment="CENTER" layoutX="93.0" layoutY="343.0" prefWidth="176.0" promptText="Tc1">
+         <tooltip>
+            <Tooltip text="limite inferior do intervalo para gerar aleatoriamente o tempo de criação de cada processo em relação ao processo criado anteriormente(segundos)" />
+         </tooltip>
+      </TextField>
+      <TextField fx:id="tc2Text" alignment="CENTER" layoutX="93.0" layoutY="391.0" prefWidth="176.0" promptText="Tc2">
+         <tooltip>
+            <Tooltip text="limite superior do intervalo para gerar aleatoriamente o tempo de criação de cada processo em relação ao processo criado anteriormente(segundos)" />
+         </tooltip>
+      </TextField>
+      <TextField fx:id="td1Text" alignment="CENTER" layoutX="93.0" layoutY="440.0" prefWidth="176.0" promptText="Td1">
+         <tooltip>
+            <Tooltip text="limite inferior do intervalo para gerar aleatoriamente a duração de cada processo(segundos)" />
+         </tooltip>
+      </TextField>
+      <TextField fx:id="td2Text" alignment="CENTER" layoutX="93.0" layoutY="488.0" prefWidth="176.0" promptText="Td2">
+         <tooltip>
+            <Tooltip text="limite superior do intervalo para gerar aleatoriamente a duração de cada processo(segundos)" />
+         </tooltip>
+      </TextField>
+      <Button layoutX="142.0" layoutY="537.0" mnemonicParsing="false" text="Começar!" />
+   </children>
+</AnchorPane>
