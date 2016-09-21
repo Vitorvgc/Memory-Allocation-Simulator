@@ -9,7 +9,7 @@ import javafx.scene.control.TextField;
 /**
  * Created by edvaldojunior on 20/09/16.
  */
-public class ConfigurationController {
+public class ConfigurationController implements ControlledScreen {
 
     @FXML
     private ChoiceBox typeBox;
@@ -34,6 +34,10 @@ public class ConfigurationController {
     @FXML
     private Button startButton;
 
+    private int numberOfElements = 9;
+
+    ScreensController myController;
+
     @FXML
     private void initialize() {
         typeBox.setItems(FXCollections.observableArrayList(
@@ -43,9 +47,46 @@ public class ConfigurationController {
     }
 
     @FXML
-    private void startSimution() {
-        if(nProcessText.getText() != null) {
+    private void startSimulation() {
 
+        System.out.print("dsdsdsdsd\n");
+        int validation = 0;
+        if(!nProcessText.getText().isEmpty()) {
+            validation++;
         }
+        if(!sizeMemoryText.getText().isEmpty()) {
+            validation++;
+        }
+        if(!sizeSOText.getText().isEmpty()) {
+            validation++;
+        }
+        if(!m1Text.getText().isEmpty()) {
+            validation++;
+        }
+        if(!m2Text.getText().isEmpty()) {
+            validation++;
+        }
+        if(!tc1Text.getText().isEmpty()) {
+            validation++;
+        }
+        if(!tc2Text.getText().isEmpty()) {
+            validation++;
+        }
+        if(!td1Text.getText().isEmpty()) {
+            validation++;
+        }
+        if(!td2Text.getText().isEmpty()) {
+            validation++;
+        }
+        if(validation == numberOfElements) {
+
+            myController.setScreen(Main.screen1Id);
+            myController.setPrefWidth(900);
+        }
+    }
+
+    @Override
+    public void setScreenParent(ScreensController screenParent) {
+        myController = screenParent;
     }
 }

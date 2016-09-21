@@ -53,6 +53,6 @@
             <Tooltip text="limite superior do intervalo para gerar aleatoriamente a duração de cada processo(segundos)" />
          </tooltip>
       </TextField>
-      <Button layoutX="142.0" layoutY="537.0" mnemonicParsing="false" text="Começar!" />
+      <Button fx:id="startButton" layoutX="142.0" layoutY="537.0" mnemonicParsing="false" onAction="#startSimulation" text="Começar!" />
    </children>
 </AnchorPane>

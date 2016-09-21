@@ -3,6 +3,7 @@ package sample;
 import Enums.AllocationType;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -11,28 +12,55 @@ import java.util.ArrayList;
 
 public class Main extends Application {
 
+    public static String screen1Id = "Main";
+    public static String screen1File = "sample.fxml";
+    public static String screen2Id = "screen2";
+    public static String screen2File = "ConfigurationScreen.fxml";
+
     @Override
     public void start(Stage primaryStage) throws Exception{
-//        Parent root = FXMLLoader.load(getClass().getResource("ConfigurationScreen.fxml"));
-        Parent root = FXMLLoader.load(getClass().getResource("../Screens/sample.fxml"));
-        primaryStage.setTitle("Hello World");
-        primaryStage.setScene(new Scene(root, 726, 643));
+
+        ScreensController mainContainer = new ScreensController();
+        mainContainer.loadScreen(Main.screen1Id, Main.screen1File);
+        mainContainer.loadScreen(Main.screen2Id, Main.screen2File);
+
+        mainContainer.setScreen(Main.screen2Id);
+
+        Group root = new Group();
+        root.getChildren().addAll(mainContainer);
+        Scene scene = new Scene(root);
+        primaryStage.setScene(scene);
         primaryStage.show();
 
-        // SystemManager test
+//        Parent root = FXMLLoader.load(getClass().getResource("ConfigurationScreen.fxml"));
+////        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
+//        primaryStage.setTitle("Hello World");
+//        primaryStage.setScene(new Scene(root, 726, 643));
+//        primaryStage.show();
 
-        Process a = new Process(5,5,5,5,10,10);
-        Process b = new Process(10,10,5,5,15,15);
-        Process c = new Process(2,2,5,5,20,20);
+//        TEST
 
-        ArrayList<Process> processes = new ArrayList<>();
-        processes.add(a);
-        processes.add(b);
-        processes.add(c);
-
-        SystemManager sys = new SystemManager(processes, AllocationType.FIRST_FIT, 100, new Process(20));
-
-        sys.start();
+//        Process so = new Process(20);
+//        Process a = new Process(30);
+//        Process b = new Process(20);
+//        Process c = new Process(40);
+//
+//        Memory memory = new Memory(100, so);
+//
+//        memory.allocateProcess(a, AllocationType.WORST_FIT);
+//        memory.printMemory();
+//
+//        memory.desallocateProcess(a);
+//
+//        memory.allocateProcess(b, AllocationType.WORST_FIT);
+//        memory.printMemory();
+//
+//        memory.allocateProcess(c, AllocationType.WORST_FIT);
+//        memory.printMemory();
+//
+//        memory.desallocateProcess(b);
+//
+//        memory.desallocateProcess(c);
     }
 
     public static void main(String[] args) {
