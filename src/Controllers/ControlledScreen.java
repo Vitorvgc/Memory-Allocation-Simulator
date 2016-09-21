@@ -1,4 +1,4 @@
-package sample;
+package Controllers;
 
 /**
  * Created by Edy Junior on 21/09/2016.

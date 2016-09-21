@@ -11,6 +11,8 @@ import java.util.TimerTask;
  */
 public class SystemManager {
 
+    private final int SECOND_TIME = 1000; // Duration of a second in the simulation, in miliseconds
+
     private Memory memory;
     private AllocationType allocationType;
     private ArrayList<Process> processes;
@@ -47,7 +49,7 @@ public class SystemManager {
                     this.cancel();
                 }
             };
-            this.timer.schedule(desallocate, process.getDuration() * 1000);
+            this.timer.schedule(desallocate, process.getDuration() * SECOND_TIME);
 
             if(++this.actualProcess < this.processes.size()) {
                 Process nextProcess = processes.get(this.actualProcess);
@@ -58,7 +60,7 @@ public class SystemManager {
                         this.cancel();
                     }
                 };
-                this.timer.schedule(allocate, nextProcess.getCreationTime() * 1000);
+                this.timer.schedule(allocate, nextProcess.getCreationTime() * SECOND_TIME);
             }
 
         }

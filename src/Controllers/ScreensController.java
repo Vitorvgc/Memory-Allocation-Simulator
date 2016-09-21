@@ -1,12 +1,10 @@
-package sample;
+package Controllers;
 
+import Controllers.ControlledScreen;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.beans.property.DoubleProperty;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -38,7 +36,7 @@ public class ScreensController extends AnchorPane {
 
         try{
 
-            FXMLLoader myLoader = new FXMLLoader(getClass().getResource(resource));
+            FXMLLoader myLoader = new FXMLLoader(getClass().getResource("/Screens/" + resource));
             Parent loadScreen = (Parent) myLoader.load();
             ControlledScreen myScreenController = (ControlledScreen) myLoader.getController();
             myScreenController.setScreenParent(this);
