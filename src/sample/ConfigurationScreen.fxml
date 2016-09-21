@@ -6,7 +6,7 @@
 <?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="599.0" prefWidth="362.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.ConfigurationController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="599.0" prefWidth="362.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.ConfigurationController">
    <children>
       <TextField fx:id="nProcessText" alignment="CENTER" layoutX="93.0" layoutY="31.0" prefHeight="27.0" prefWidth="176.0" promptText="Número de processos">
          <tooltip>
@@ -53,6 +53,6 @@
             <Tooltip text="limite superior do intervalo para gerar aleatoriamente a duração de cada processo(segundos)" />
          </tooltip>
       </TextField>
-      <Button layoutX="142.0" layoutY="537.0" mnemonicParsing="false" text="Começar!" />
+      <Button fx:id="startButton" layoutX="142.0" layoutY="537.0" mnemonicParsing="false" onAction="#startSimulation" text="Começar!" />
    </children>
 </AnchorPane>

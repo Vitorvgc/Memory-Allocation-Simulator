@@ -9,7 +9,7 @@ import javafx.scene.layout.Pane;
 
 import java.util.Optional;
 
-public class Controller {
+public class Controller implements ControlledScreen {
 
     @FXML
     private Pane memoryPane;
@@ -20,6 +20,12 @@ public class Controller {
     @FXML
     private AnchorPane wantingPane;
 
+    ScreensController myController;
+
+    @Override
+    public void setScreenParent(ScreensController screenParent) {
+        myController = screenParent;
+    }
 
     public void clicou() {
         System.out.print("SSSS\n");
