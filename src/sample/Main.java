@@ -1,5 +1,7 @@
 package sample;
 
+import Controllers.ConfigurationController;
+import Controllers.Controller;
 import Enums.AllocationType;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -13,10 +15,17 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-//        Parent root = FXMLLoader.load(getClass().getResource("ConfigurationScreen.fxml"));
-        Parent root = FXMLLoader.load(getClass().getResource("../Screens/sample.fxml"));
-        primaryStage.setTitle("Hello World");
-        primaryStage.setScene(new Scene(root, 726, 643));
+//        Parent root = FXMLLoader.load(getClass().getResource("/Screens/ConfigurationScreen.fxml"));
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Screens/ConfigurationScreen.fxml"));
+
+        Parent root = loader.load();
+
+        ConfigurationController controller = loader.getController();
+        controller.setPreviousStage(primaryStage);
+
+        primaryStage.setTitle("Configuration");
+        primaryStage.setScene(new Scene(root, 770, 680));
         primaryStage.show();
 
         // SystemManager test

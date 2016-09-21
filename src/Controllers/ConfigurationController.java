@@ -2,14 +2,22 @@ package Controllers;
 
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+
+import java.io.IOException;
 
 /**
  * Created by edvaldojunior on 20/09/16.
  */
 public class ConfigurationController {
+
+    Stage previousStage;
 
     @FXML
     private ChoiceBox typeBox;
@@ -43,9 +51,26 @@ public class ConfigurationController {
     }
 
     @FXML
-    private void startSimution() {
-        if(nProcessText.getText() != null) {
+    private void startSimulation() throws IOException {
 
-        }
+        Stage stage = new Stage();
+        stage.setTitle("Simulation");
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Screens/sample.fxml"));
+        Parent root = loader.load();
+
+        previousStage.close();
+
+        stage.setScene(new Scene(root, 770, 680));
+        stage.show();
+
+        //TODO: passar pro SystemManager
+        Controller controller = loader.getController();
+
+
+    }
+
+    public void setPreviousStage(Stage previousStage) {
+        this.previousStage = previousStage;
     }
 }
