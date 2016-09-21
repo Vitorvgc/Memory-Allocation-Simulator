@@ -9,7 +9,11 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Paint;
 import sample.Process;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.concurrent.Semaphore;
 
 
 public class Controller implements ControlledScreen {
@@ -44,19 +48,47 @@ public class Controller implements ControlledScreen {
 
         ProcessNode node = new ProcessNode(process, sizeProportion * MEMORY_HEIGHT);
 
-        node.setY(sizeProportion * MEMORY_HEIGHT);
+        node.setY(heightProportion * MEMORY_HEIGHT);
 
         node.setFill(Paint.valueOf("#0000CC88"));
 
+        this.processes.add(node);
+
+        //System.out.println(node.getProcess());
+
         Platform.runLater(() -> memoryPane.getChildren().add(node));
-        
+
     }
 
     public void desallocateProcess(Process process) {
 
-        for(ProcessNode p : processes)
-            if(p.getProcess() == process)
-                this.memoryPane.getChildren().remove(p);
+        //System.out.printf("Process: ");
+        //System.out.println(process);
+
+
+        /** problemas com concorrencia **/
+        /** http://blog.caelum.com.br/concurrentmodificationexception-e-os-fail-fast-iterators/ **/
+
+        for (Iterator<ProcessNode> it = this.processes.iterator(); it.hasNext(); ) {
+            ProcessNode p = it.next();
+            if (p.getProcess().getId() == process.getId()) {
+                Platform.runLater(() -> this.memoryPane.getChildren().remove(p));
+                this.processes.remove(p);
+                //System.out.println("morreu");
+            }
+        }
+
+
+        /*
+        for(ProcessNode p : processes) {
+            //System.out.print(p.getProcess());
+            if (p.getProcess().getId() == process.getId()) {
+                Platform.runLater(() -> this.memoryPane.getChildren().remove(p));
+                this.processes.remove(p);
+                //System.out.println("morreu");
+            }
+        }
+        */
 
     }
 

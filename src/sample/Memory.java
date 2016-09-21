@@ -54,7 +54,7 @@ public class Memory {
                     this.memory.get(i).size += this.memory.get(i+1).size;
                     this.memory.remove(i+1);
                 }
-                this.printMemory(); // test
+                //this.printMemory(); // test
                 return;
             }
         }
@@ -62,14 +62,16 @@ public class Memory {
 
     private int allocateProcessWithFirstFit(Process process) {
         int pos = 0;
-        for(int i = 0; i < this.memory.size(); i++, pos += this.memory.get(i).size) {
+        for(int i = 0; i < this.memory.size(); i++) {
             Node actual = this.memory.get(i);
             if(actual.free && actual.size >= process.getMemory()) {
                 this.memory.get(i).size -= process.getMemory();
                 this.memory.add(i, new Node(process));
                 if(i < lastPosition) lastPosition++;
+                //System.out.printf("Processo alocado na pos: %d\n", pos);
                 return pos;
             }
+            pos += this.memory.get(i).size;
         }
         return -1;
     }
@@ -126,6 +128,10 @@ public class Memory {
             }
         }
         return -1;
+    }
+
+    public int getTotalMemory() {
+        return this.totalMemory;
     }
 
     private class Node {

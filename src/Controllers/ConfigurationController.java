@@ -15,6 +15,7 @@ import sample.Process;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Created by edvaldojunior on 20/09/16.
@@ -77,13 +78,17 @@ public class ConfigurationController implements ControlledScreen {
 
 
         Process a = new Process(5,5,5,5,5,5);
-        Process b = new Process(5,5,5,5,5,5);
-        Process c = new Process(5,5,5,5,5,5);
+        Process b = new Process(2,2,5,5,15,15);
+        Process c = new Process(3,3,5,5,10,10);
+        Process d = new Process(20,20,5,5,40,40);
 
         ArrayList<Process> processes = new ArrayList<>();
         processes.add(a);
         processes.add(b);
         processes.add(c);
+
+        System.out.printf("Todos os processos: ");
+        System.out.println(Arrays.toString(processes.toArray()));
 
         Controller controller = loader.getController();
 
