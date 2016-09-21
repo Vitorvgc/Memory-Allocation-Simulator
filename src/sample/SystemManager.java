@@ -41,9 +41,11 @@ public class SystemManager {
 
     private void allocateProcess(Process process) {
 
-        boolean allocationSucessful = this.memory.allocateProcess(process, this.allocationType);
+        int memoryPosition = this.memory.allocateProcess(process, this.allocationType);
 
-        if(allocationSucessful) {
+        this.controller.allocateProcess(process, 0.25, 0.25);
+
+        if(memoryPosition != -1) {
             System.out.println("Processo alocado");
 
             TimerTask desallocate = new TimerTask() {

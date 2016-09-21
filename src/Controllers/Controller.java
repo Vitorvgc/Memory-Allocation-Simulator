@@ -1,6 +1,7 @@
 package Controllers;
 
 import Nodes.ProcessNode;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
@@ -8,11 +9,14 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Paint;
 import sample.Process;
 
+import java.util.ArrayList;
+
 
 public class Controller implements ControlledScreen {
 
     private static int MEMORY_HEIGHT = 550;
 
+    private ArrayList<ProcessNode> processes;
 
     @FXML
     private Pane memoryPane;
@@ -32,7 +36,8 @@ public class Controller implements ControlledScreen {
 
     @FXML
     public void initialize() {
-        allocateProcess(new Process(20), 0.5, 0.5);
+
+        this.processes = new ArrayList<>();
     }
 
     public void allocateProcess(Process process, double sizeProportion, double heightProportion) {
@@ -43,7 +48,15 @@ public class Controller implements ControlledScreen {
 
         node.setFill(Paint.valueOf("#0000CC88"));
 
-        this.memoryPane.getChildren().add(node);
+        Platform.runLater(() -> memoryPane.getChildren().add(node));
+        
+    }
+
+    public void desallocateProcess(Process process) {
+
+        for(ProcessNode p : processes)
+            if(p.getProcess() == process)
+                this.memoryPane.getChildren().remove(p);
 
     }
 

@@ -16,4 +16,8 @@ public class ProcessNode extends Rectangle {
         this.setHeight(height);
     }
 
+    public Process getProcess() {
+        return this.process;
+    }
+
 }
