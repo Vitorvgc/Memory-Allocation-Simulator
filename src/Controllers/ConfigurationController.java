@@ -57,8 +57,6 @@ public class ConfigurationController implements ControlledScreen {
                 "First fit", "Best fit", "Worst fit", "Next-fit")
         );
         typeBox.setValue("First fit");
-
-
     }
 
     @FXML
@@ -93,6 +91,8 @@ public class ConfigurationController implements ControlledScreen {
         Controller controller = loader.getController();
 
         SystemManager systemManager = new SystemManager(processes, AllocationType.FIRST_FIT, 100, new Process(20), controller);
+
+        controller.setTotalProcesses(systemManager.getProcesses());
 
         systemManager.start();
 

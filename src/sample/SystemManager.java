@@ -96,13 +96,11 @@ public class SystemManager {
                 };
                 this.timer.schedule(allocate, nextProcess.getCreationTime() * SECOND_TIME);
             }
-
         }
         else if(!this.processesQueue.contains(process)){
             this.processesQueue.add(process);
             System.out.println("Processo nao pode ser alocado, entrou na fila");
         }
-
     }
 
     private void desallocateProcess(Process process) throws InterruptedException {
@@ -115,7 +113,9 @@ public class SystemManager {
         for(Process p : this.processesQueue) {
             this.allocateProcess(p);
         }
-
     }
 
+    public ArrayList<Process> getProcesses() {
+        return processes;
+    }
 }
