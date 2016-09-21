@@ -40,9 +40,11 @@ public class SystemManager {
 
     private void allocateProcess(Process process) {
 
-        boolean allocationSucessful = this.memory.allocateProcess(process, this.allocationType);
+        int memoryPosition = this.memory.allocateProcess(process, this.allocationType);
 
-        if(allocationSucessful) {
+        this.controller.allocateProcess(process, 0.25, 0.25);
+
+        if(memoryPosition != -1) {
             System.out.println("Processo alocado");
 
             TimerTask desallocate = new TimerTask() {
@@ -65,13 +67,11 @@ public class SystemManager {
                 };
                 this.timer.schedule(allocate, nextProcess.getCreationTime() * SECOND_TIME);
             }
-
         }
         else if(!this.processesQueue.contains(process)){
             this.processesQueue.add(process);
             System.out.println("Processo nao pode ser alocado, entrou na fila");
         }
-
     }
 
     private void desallocateProcess(Process process) {
@@ -81,7 +81,9 @@ public class SystemManager {
         for(Process p : this.processesQueue) {
             this.allocateProcess(p);
         }
-
     }
 
+    public ArrayList<Process> getProcesses() {
+        return processes;
+    }
 }

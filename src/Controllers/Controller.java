@@ -5,6 +5,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -14,10 +15,16 @@ import javafx.scene.paint.Paint;
 import sample.Process;
 import sample.SystemManager;
 
+import java.util.ArrayList;
+
 
 public class Controller implements ControlledScreen {
 
     private static int MEMORY_HEIGHT = 550;
+
+    private ArrayList<ProcessNode> processes;
+
+    private ArrayList<Process> totalProcesses;
 
     @FXML
     private Pane memoryPane;
@@ -45,10 +52,11 @@ public class Controller implements ControlledScreen {
 
     ScreensController myController;
 
-    private ObservableList<Process> dataTable = FXCollections.observableArrayList();
+    private ObservableList<Process> dataTable;
 
     public Controller() {
 
+        //dataTable = FXCollections.observableArrayList(SystemManager.get)
     }
 
     @Override
@@ -58,15 +66,15 @@ public class Controller implements ControlledScreen {
 
     @FXML
     public void initialize() {
+
         allocateProcess(new Process(20), 0.5, 0.5);
 
         //this.nameColumn.setCellValueFactory(cellData -> cellData.getValue().senhaPropertyProperty());
-        this.tCreationColumn.setCellValueFactory(cellData -> new SimpleStringProperty(String.format("%d", cellData.getValue().getCreationTime())));
-        this.tDurationColumn.setCellValueFactory(cellData -> new SimpleStringProperty(String.format("%d", cellData.getValue().getDuration())));
-        this.memoryColumn.setCellValueFactory(cellData -> new SimpleStringProperty(String.format("%d", cellData.getValue().getMemory())));
+        this.tCreationColumn.setCellValueFactory(cellData -> cellData.getValue().getTCreationProperty());
+        this.tDurationColumn.setCellValueFactory(cellData -> cellData.getValue().getTDurationProperty());
+        this.memoryColumn.setCellValueFactory(cellData -> cellData.getValue().getMemoryProperty());
 
         processesTable.setItems(dataTable);
-
     }
 
     public void allocateProcess(Process process, double sizeProportion, double heightProportion) {
@@ -77,8 +85,22 @@ public class Controller implements ControlledScreen {
 
         node.setFill(Paint.valueOf("#0000CC88"));
 
-        this.memoryPane.getChildren().add(node);
+        Platform.runLater(() -> memoryPane.getChildren().add(node));
+        
+    }
 
+    public void desallocateProcess(Process process) {
+
+        for(ProcessNode p : processes)
+            if(p.getProcess() == process)
+                this.memoryPane.getChildren().remove(p);
+
+    }
+
+    public void setTotalProcesses(ArrayList<Process> totalProcesses) {
+        this.totalProcesses = totalProcesses;
+        dataTable = FXCollections.observableArrayList(this.totalProcesses);
+        System.out.print("Processos = " + dataTable);
     }
 
 }
