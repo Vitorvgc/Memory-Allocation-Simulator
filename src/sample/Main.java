@@ -3,19 +3,38 @@ package sample;
 import Enums.AllocationType;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class Main extends Application {
 
+    public static String screen1Id = "Main";
+    public static String screen1File = "sample.fxml";
+    public static String screen2Id = "screen2";
+    public static String screen2File = "ConfigurationScreen.fxml";
+
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("ConfigurationScreen.fxml"));
-//        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
-        primaryStage.setTitle("Hello World");
-        primaryStage.setScene(new Scene(root, 726, 643));
+
+        ScreensController mainContainer = new ScreensController();
+        mainContainer.loadScreen(Main.screen1Id, Main.screen1File);
+        mainContainer.loadScreen(Main.screen2Id, Main.screen2File);
+
+        mainContainer.setScreen(Main.screen2Id);
+
+        Group root = new Group();
+        root.getChildren().addAll(mainContainer);
+        Scene scene = new Scene(root);
+        primaryStage.setScene(scene);
         primaryStage.show();
+
+//        Parent root = FXMLLoader.load(getClass().getResource("ConfigurationScreen.fxml"));
+////        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
+//        primaryStage.setTitle("Hello World");
+//        primaryStage.setScene(new Scene(root, 726, 643));
+//        primaryStage.show();
 
 //        TEST
 
