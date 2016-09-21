@@ -1,5 +1,6 @@
 package Controllers;
 
+import Enums.AllocationType;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,7 +10,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import sample.SystemManager;
+import sample.Process;
+
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Created by edvaldojunior on 20/09/16.
@@ -51,6 +56,8 @@ public class ConfigurationController implements ControlledScreen {
                 "First fit", "Best fit", "Worst fit", "Next-fit")
         );
         typeBox.setValue("First fit");
+
+
     }
 
     @FXML
@@ -68,9 +75,21 @@ public class ConfigurationController implements ControlledScreen {
         stage.setScene(new Scene(root, 770, 680));
         stage.show();
 
-        //TODO: passar pro SystemManager
+
+        Process a = new Process(5,5,5,5,5,5);
+        Process b = new Process(5,5,5,5,5,5);
+        Process c = new Process(5,5,5,5,5,5);
+
+        ArrayList<Process> processes = new ArrayList<>();
+        processes.add(a);
+        processes.add(b);
+        processes.add(c);
+
         Controller controller = loader.getController();
 
+        SystemManager systemManager = new SystemManager(processes, AllocationType.FIRST_FIT, 100, new Process(20), controller);
+
+        systemManager.start();
 
     }
 

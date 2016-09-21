@@ -1,5 +1,6 @@
 package sample;
 
+import Controllers.Controller;
 import Enums.AllocationType;
 
 import java.util.ArrayList;
@@ -19,15 +20,18 @@ public class SystemManager {
     private ArrayList<Process> processesQueue;
     private Timer timer;
 
+    private Controller controller;
+
     private int actualProcess;
 
-    public SystemManager(ArrayList<Process> processes, AllocationType allocationType, int totalMemory, Process so) {
+    public SystemManager(ArrayList<Process> processes, AllocationType allocationType, int totalMemory, Process so, Controller controller) {
         this.processes = processes;
         this.allocationType = allocationType;
         this.memory = new Memory(totalMemory, so);
         this.processesQueue = new ArrayList<>();
         this.timer = new Timer();
         this.actualProcess = 0;
+        this.controller = controller;
     }
 
     public void start() {
