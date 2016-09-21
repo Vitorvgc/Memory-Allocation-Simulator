@@ -10,7 +10,7 @@ import java.util.TimerTask;
  * Created by vitorchagas on 20/09/16.
  */
 public class SystemManager {
-    
+
     private Memory memory;
     private AllocationType allocationType;
     private ArrayList<Process> processes;
@@ -44,6 +44,7 @@ public class SystemManager {
                 @Override
                 public void run() {
                     desallocateProcess(process);
+                    this.cancel();
                 }
             };
             this.timer.schedule(desallocate, process.getDuration() * 1000);
@@ -54,6 +55,7 @@ public class SystemManager {
                     @Override
                     public void run() {
                         allocateProcess(nextProcess);
+                        this.cancel();
                     }
                 };
                 this.timer.schedule(allocate, nextProcess.getCreationTime() * 1000);
