@@ -1,6 +1,8 @@
 package Controllers;
 
 import Nodes.ProcessNode;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -13,6 +15,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import sample.Process;
+import sample.SystemManager;
 
 import java.util.Optional;
 
@@ -25,12 +28,14 @@ public class Controller implements ControlledScreen {
     private Pane memoryPane;
 
     @FXML
-    private TableView processesTable;
+    private TableView <Process> processesTable;
 
     @FXML
     private AnchorPane wantingPane;
 
     ScreensController myController;
+
+    ObservableList<Process> dataTable;
 
     @Override
     public void setScreenParent(ScreensController screenParent) {
@@ -40,6 +45,8 @@ public class Controller implements ControlledScreen {
     @FXML
     public void initialize() {
         allocateProcess(new Process(20), 0.5, 0.5);
+        dataTable = FXCollections.observableArrayList();
+
     }
 
     public void allocateProcess(Process process, double sizeProportion, double heightProportion) {
