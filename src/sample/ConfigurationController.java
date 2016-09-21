@@ -51,36 +51,37 @@ public class ConfigurationController implements ControlledScreen {
 
         System.out.print("dsdsdsdsd\n");
         int validation = 0;
-        if(nProcessText.getText() != null) {
+        if(!nProcessText.getText().isEmpty()) {
             validation++;
         }
-        if(sizeMemoryText.getText() != null) {
+        if(!sizeMemoryText.getText().isEmpty()) {
             validation++;
         }
-        if(sizeSOText.getText() != null) {
+        if(!sizeSOText.getText().isEmpty()) {
             validation++;
         }
-        if(m1Text.getText() != null) {
+        if(!m1Text.getText().isEmpty()) {
             validation++;
         }
-        if(m2Text.getText() != null) {
+        if(!m2Text.getText().isEmpty()) {
             validation++;
         }
-        if(tc1Text.getText() != null) {
+        if(!tc1Text.getText().isEmpty()) {
             validation++;
         }
-        if(tc2Text.getText() != null) {
+        if(!tc2Text.getText().isEmpty()) {
             validation++;
         }
-        if(td1Text.getText() != null) {
+        if(!td1Text.getText().isEmpty()) {
             validation++;
         }
-        if(td2Text.getText() != null) {
+        if(!td2Text.getText().isEmpty()) {
             validation++;
         }
         if(validation == numberOfElements) {
 
-            myController.setScreen(ScreensFramework.screen1Id);
+            myController.setScreen(Main.screen1Id);
+            myController.setPrefWidth(900);
         }
     }
 
