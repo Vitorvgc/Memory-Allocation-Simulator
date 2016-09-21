@@ -30,14 +30,14 @@ public class Memory {
         System.out.println();
     }
 
-    public boolean allocateProcess(Process process, AllocationType type) {
+    public int allocateProcess(Process process, AllocationType type) {
         switch(type) {
             case FIRST_FIT: return allocateProcessWithFirstFit(process);
             case BEST_FIT:  return allocateProcessWithBestFit(process);
             case WORST_FIT: return allocateProcessWithWorstFit(process);
             case NEXT_FIT:  return allocateProcessWithNextFit(process);
         }
-        return false;
+        return -1;
     }
 
     //TODO: Update lastPosition after removing nodes
@@ -60,40 +60,41 @@ public class Memory {
         }
     }
 
-    private boolean allocateProcessWithFirstFit(Process process) {
-
-        for(int i = 0; i < this.memory.size(); i++) {
+    private int allocateProcessWithFirstFit(Process process) {
+        int pos = 0;
+        for(int i = 0; i < this.memory.size(); i++, pos += this.memory.get(i).size) {
             Node actual = this.memory.get(i);
             if(actual.free && actual.size >= process.getMemory()) {
                 this.memory.get(i).size -= process.getMemory();
                 this.memory.add(i, new Node(process));
                 if(i < lastPosition) lastPosition++;
-                return true;
+                return pos;
             }
         }
-        return false;
+        return -1;
     }
 
-    private boolean allocateProcessWithBestFit(Process process) {
-
-        int minPosition = -1, minSize = Integer.MAX_VALUE;
-        for(int i = 0; i < this.memory.size(); i++) {
+    private int allocateProcessWithBestFit(Process process) {
+        int pos = 0;
+        int minPosition = -1, minSize = Integer.MAX_VALUE, minPos = -1;
+        for(int i = 0; i < this.memory.size(); i++, pos += this.memory.get(i).size) {
             Node actual = this.memory.get(i);
             if (actual.free && actual.size >= process.getMemory() && actual.size < minSize) {
                 minPosition = i;
                 minSize = this.memory.get(i).size;
+                minPos = pos;
             }
         }
         if(minPosition != -1) {
             this.memory.get(minPosition).size -= process.getMemory();
             this.memory.add(minPosition, new Node(process));
             if(minPosition < lastPosition) lastPosition++;
-            return true;
+            return pos;
         }
-        return false;
+        return -1;
     }
 
-    private boolean allocateProcessWithWorstFit(Process process) {
+    private int allocateProcessWithWorstFit(Process process) {
 
         int maxPosition = -1, maxSize = -1;
         for(int i = 0; i < this.memory.size(); i++) {
@@ -107,13 +108,13 @@ public class Memory {
             this.memory.get(maxPosition).size -= process.getMemory();
             this.memory.add(maxPosition, new Node(process));
             if(maxPosition < lastPosition) lastPosition++;
-            return true;
+            return -1;
         }
-        return false;
+        return -1;
     }
 
     //TODO: Check functionality of the next-fit method
-    private boolean allocateProcessWithNextFit(Process process) {
+    private int allocateProcessWithNextFit(Process process) {
 
         for(int i = lastPosition + 1; i != lastPosition; i = (i+1) % this.memory.size()) {
             Node actual = this.memory.get(i);
@@ -121,10 +122,10 @@ public class Memory {
                 this.memory.get(i).size -= process.getMemory();
                 this.memory.add(i, new Node(process));
                 if(i < lastPosition) lastPosition++;
-                return true;
+                return -1;
             }
         }
-        return false;
+        return -1;
     }
 
     private class Node {
