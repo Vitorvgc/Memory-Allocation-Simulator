@@ -1,12 +1,12 @@
 package sample;
 
-<<<<<<< HEAD
-import Controllers.ScreensController;
-=======
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.stage.Stage;
 import Controllers.ConfigurationController;
 import Controllers.Controller;
 import Enums.AllocationType;
->>>>>>> d31cdb9
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;

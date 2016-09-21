@@ -37,23 +37,6 @@ public class Controller implements ControlledScreen {
         myController = screenParent;
     }
 
-    public void clicou() {
-        System.out.print("SSSS\n");
-    }
-
-    public void newProcess() {
-
-        TextInputDialog dialog = new TextInputDialog("walter");
-        dialog.setTitle("Text Input Dialog");
-        dialog.setHeaderText("Look, a Text Input Dialog");
-        dialog.setContentText("Please enter your name:");
-
-        Optional<String> result = dialog.showAndWait();
-        if (result.isPresent()){
-            System.out.println("Your name: " + result.get());
-        }
-    }
-
     @FXML
     public void initialize() {
         allocateProcess(new Process(20), 0.5, 0.5);
