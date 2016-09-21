@@ -35,7 +35,6 @@ public class SystemManager {
     }
 
     public void start() {
-
         this.allocateProcess(processes.get(0));
     }
 
