@@ -1,6 +1,12 @@
 package sample;
 
+<<<<<<< HEAD
 import Controllers.ScreensController;
+=======
+import Controllers.ConfigurationController;
+import Controllers.Controller;
+import Enums.AllocationType;
+>>>>>>> d31cdb9
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -16,16 +22,17 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
 
-        ScreensController mainContainer = new ScreensController();
-        mainContainer.loadScreen(Main.screen1Id, Main.screen1File);
-        mainContainer.loadScreen(Main.screen2Id, Main.screen2File);
+//        Parent root = FXMLLoader.load(getClass().getResource("/Screens/ConfigurationScreen.fxml"));
 
-        mainContainer.setScreen(Main.screen2Id);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Screens/ConfigurationScreen.fxml"));
 
-        Group root = new Group();
-        root.getChildren().addAll(mainContainer);
-        Scene scene = new Scene(root);
-        primaryStage.setScene(scene);
+        Parent root = loader.load();
+
+        ConfigurationController controller = loader.getController();
+        controller.setPreviousStage(primaryStage);
+
+        primaryStage.setTitle("Configuration");
+        primaryStage.setScene(new Scene(root, 770, 680));
         primaryStage.show();
 
 //        Parent root = FXMLLoader.load(getClass().getResource("ConfigurationScreen.fxml"));
