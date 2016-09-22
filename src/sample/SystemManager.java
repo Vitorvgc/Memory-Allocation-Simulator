@@ -71,6 +71,7 @@ public class SystemManager {
             System.out.printf("Processo %d alocado\n", process.getId());
             this.controller.allocateProcess(process, sizeProportion, heightProportion);
 
+
             TimerTask desallocate = new TimerTask() {
                 @Override
                 public void run() {
@@ -93,6 +94,8 @@ public class SystemManager {
                             allocateProcess(nextProcess);
                             TimeCounter counter = new TimeCounter(nextProcess.getTDurationProperty());
                             counter.start();
+                            nextProcess.getTAlocationProperty().setValue(String.format("%d", clock.getTime()));
+                            nextProcess.getTEndProperty().setValue(String.format("%d", clock.getTime() + nextProcess.getDuration()));
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
@@ -104,7 +107,7 @@ public class SystemManager {
         }
         else if(!this.processesQueue.contains(process)){
             this.processesQueue.add(process);
-            System.out.println("Processo nao pode ser alocado, entrou na fila");
+            System.out.println("Processo nao pode ser alocado e entrou na fila");
         }
     }
 

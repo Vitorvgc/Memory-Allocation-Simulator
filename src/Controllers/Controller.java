@@ -62,7 +62,6 @@ public class Controller {
         //allocateProcess(new Process(20), 0.5, 0.5);
         this.processes = new ArrayList<>();
 
-        //this.nameColumn.setCellValueFactory(cellData -> cellData.getValue().senhaPropertyProperty());
         this.tCreationColumn.setCellValueFactory(cellData -> cellData.getValue().getTCreationProperty());
         this.tDurationColumn.setCellValueFactory(cellData -> cellData.getValue().getTDurationProperty());
         this.memoryColumn.setCellValueFactory(cellData -> cellData.getValue().getMemoryProperty());
@@ -80,6 +79,8 @@ public class Controller {
 
         Platform.runLater(() -> this.processes.add(node));
         Platform.runLater(() -> memoryPane.getChildren().add(node));
+
+
     }
 
     public void desallocateProcess(Process process) {

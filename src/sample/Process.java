@@ -20,8 +20,7 @@ public class Process {
     private int id;
 
 
-    private final StringProperty idProperty, tCreationProperty, tDurationProperty, memoryProperty;//,
-                                 //tEndProperty, tWaitProperty, tAlocationProperty;
+    private StringProperty idProperty, tCreationProperty, tDurationProperty, memoryProperty, tEndProperty, tWaitProperty, tAlocationProperty;
 
     public Process(int memory) {
         this.creationTime = 0;
@@ -33,6 +32,9 @@ public class Process {
         tCreationProperty = new SimpleStringProperty("0");
         tDurationProperty = new SimpleStringProperty("0");
         memoryProperty = new SimpleStringProperty("0");
+        tEndProperty = new SimpleStringProperty("-");
+        tWaitProperty = new SimpleStringProperty("-");
+        tAlocationProperty = new SimpleStringProperty("-");
     }
 
     public Process(int minCreationTime, int maxCreationTime, int minDuration, int maxDuration, int minMemory, int maxMemory) {
@@ -48,6 +50,9 @@ public class Process {
         tCreationProperty = new SimpleStringProperty(String.format("%d", creationTime));
         tDurationProperty = new SimpleStringProperty(String.format("%d", duration));
         memoryProperty = new SimpleStringProperty(String.format("%d", memory));
+        tEndProperty = new SimpleStringProperty("-");
+        tWaitProperty = new SimpleStringProperty("-");
+        tAlocationProperty = new SimpleStringProperty("-");
 
         if(this.creationTime < 0 || this.duration < 0 || this.memory < 0)
             System.out.println("WARNING: Process with negative values");
@@ -67,7 +72,6 @@ public class Process {
 
     public int getId() { return this.id; }
 
-
     public StringProperty getIDProperty() { return idProperty; }
 
     public StringProperty getTCreationProperty() { return tCreationProperty; }
@@ -76,15 +80,15 @@ public class Process {
 
     public StringProperty getMemoryProperty() { return memoryProperty; }
 
-//    public StringProperty getTEndProperty() {
-//        return tEndProperty;
-//    }
-//
-//    public StringProperty getTWaitProperty() {
-//        return tWaitProperty;
-//    }
-//
-//    public StringProperty getTAlocationProperty() {
-//        return tAlocationProperty;
-//    }
+    public StringProperty getTEndProperty() {
+        return tEndProperty;
+    }
+
+    public StringProperty getTWaitProperty() {
+        return tWaitProperty;
+    }
+
+    public StringProperty getTAlocationProperty() {
+        return tAlocationProperty;
+    }
 }
