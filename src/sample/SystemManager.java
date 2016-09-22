@@ -152,10 +152,7 @@ public class SystemManager {
         System.out.printf("%d %d\n", this.totalWaitTime, this.finishedProcesses);
 
 
-        if(this.finishedProcesses == this.processes.size()) {
-            // stop clock
-            System.out.println("--- Fim ---");
-        }
+
 
         this.memory.desallocateProcess(process);
         this.controller.desallocateProcess(process);
@@ -164,6 +161,14 @@ public class SystemManager {
                                       this.memoryUsed, (double) this.memoryUsed/ this.memory.getTotalMemory() * 100.0));
 
         System.out.printf("Processo %d desalocado\n", process.getId());
+
+        if(this.finishedProcesses == this.processes.size()) {
+            // stop clock
+            System.out.println("--- Fim ---");
+            getClock().flag = false;
+            this.clock = null;
+
+        }
 
         List syncProcessQueue = Collections.synchronizedList(this.processesQueue);
 
