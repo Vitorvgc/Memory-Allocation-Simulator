@@ -79,13 +79,12 @@ public class ConfigurationController implements ControlledScreen {
 
         previousStage.close();
 
-        stage.setScene(new Scene(root, 770, 680));
+        stage.setScene(new Scene(root, 830, 680));
         stage.show();
 
         Controller controller = loader.getController();
 
         SystemManager systemManager = new SystemManager(processes, this.allocationType, this.totalMemory, this.so, controller);
-
         systemManager.start();
 
     }
@@ -126,6 +125,5 @@ public class ConfigurationController implements ControlledScreen {
     public void setScreenParent(ScreensController screenParent) {
         myController = screenParent;
     }
-
 
 }

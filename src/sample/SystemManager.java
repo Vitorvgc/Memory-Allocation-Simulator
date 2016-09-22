@@ -19,6 +19,7 @@ public class SystemManager {
     private Process so;
     private Timer timer;
     private Clock clock;
+    private int memoryUsed = 0;
 
     private Controller controller;
 
@@ -40,7 +41,9 @@ public class SystemManager {
 
     public void start() {
 
-        this.controller.allocateProcess(this.so, (double)so.getMemory() / memory.getTotalMemory(), (double)(memory.getTotalMemory() - so.getMemory()) / memory.getTotalMemory());
+        this.controller.allocateProcess(this.so, (double)so.getMemory() / memory.getTotalMemory(),
+                                       (double)(memory.getTotalMemory() - so.getMemory()) / memory.getTotalMemory());
+        this.memoryUsed += this.so.getMemory();
 
         TimerTask allocate = new TimerTask() {
             @Override
@@ -59,11 +62,18 @@ public class SystemManager {
 
         int memoryPosition = this.memory.allocateProcess(process, this.allocationType);
 
+        process.setRealCreationTime(getClock().getTime());
+        process.getTRealCreationProperty().setValue(String.format("%d", getClock().getTime()));
+
         // schedule desallocation of process
         if(memoryPosition != -1) {
 
-            process.getTAllocationProperty().setValue(String.format("%d", clock.getTime()));
+            process.getTAllocationProperty().setValue(String.format("%d", getClock().getTime()));
             process.getTEndProperty().setValue(String.format("%d", clock.getTime() + process.getDuration()));
+
+            this.memoryUsed += process.getMemory();
+            this.controller.getMemoryUsedProperty().setValue(String.format("%d ( %.1f %% )",
+                                      this.memoryUsed, (double) this.memoryUsed/ this.memory.getTotalMemory() * 100.0));
 
             if(this.processesQueue.contains(process)) this.processesQueue.remove(process);
 
@@ -117,10 +127,14 @@ public class SystemManager {
 
     private void desallocateProcess(Process process) throws InterruptedException {
 
-        //process.getTWaitProperty().setValue(String.format("%d", clock.getTime() - process.get));
+        process.getTWaitProperty().setValue(String.format("%d", clock.getTime() - process.getRealCreationTime()));
 
         this.memory.desallocateProcess(process);
         this.controller.desallocateProcess(process);
+        this.memoryUsed -= process.getMemory();
+        this.controller.getMemoryUsedProperty().setValue(String.format("%d ( %.1f %% )",
+                                      this.memoryUsed, (double) this.memoryUsed/ this.memory.getTotalMemory() * 100.0));
+
         System.out.printf("Processo %d desalocado\n", process.getId());
 
         List syncProcessQueue = Collections.synchronizedList(this.processesQueue);
