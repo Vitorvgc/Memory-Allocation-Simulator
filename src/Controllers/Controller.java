@@ -34,7 +34,7 @@ public class Controller {
     @FXML
     private TableView <Process> processesTable;
     @FXML
-    private AnchorPane wantingPane;
+    private AnchorPane waitingPane;
     @FXML
     private Label clockLabel;
     @FXML
@@ -95,11 +95,25 @@ public class Controller {
                     if (p.getProcess().getId() == process.getId()) {
                         Platform.runLater(() -> this.memoryPane.getChildren().remove(p));
                         this.processes.remove(p);
+                        break;
                     }
                 }
             }
         } catch(ConcurrentModificationException e) {
-            return;
+            // do nothing
+        }
+    }
+
+    public void updateQueue(ArrayList<Process> processes) {
+
+        for(Process process : processes) {
+
+            ProcessNode node = new ProcessNode(process, 0);
+            node.setLayoutX(50);
+            node.setLayoutY(50);
+
+            Platform.runLater(() -> this.waitingPane.getChildren().add(node));
+
         }
     }
 

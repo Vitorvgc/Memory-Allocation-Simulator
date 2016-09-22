@@ -2,18 +2,15 @@ package sample;
 
 import Controllers.Controller;
 import Enums.AllocationType;
+import Enums.Constants;
 
-import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 import java.util.concurrent.Semaphore;
 
 /**
  * Created by vitorchagas on 20/09/16.
  */
 public class SystemManager {
-
-    private final int SECOND_TIME = 1000; // Duration of a second in the simulation, in miliseconds
 
     private Memory memory;
     private AllocationType allocationType;
@@ -50,20 +47,22 @@ public class SystemManager {
             public void run() {
                 try {
                     allocateProcess(processes.get(0));
-                    TimeCounter counter = new TimeCounter(processes.get(0).getTDurationProperty());
-                    counter.start();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
         };
-        this.timer.schedule(allocate, processes.get(0).getCreationTime() * SECOND_TIME);
+        this.timer.schedule(allocate, processes.get(0).getCreationTime() * Constants.TIME_SECOND.getValue());
     }
 
     private void allocateProcess(Process process) throws InterruptedException {
+
         int memoryPosition = this.memory.allocateProcess(process, this.allocationType);
 
+        // schedule desallocation of process
         if(memoryPosition != -1) {
+
+            if(this.processesQueue.contains(process)) this.processesQueue.remove(process);
 
             double sizeProportion = (double)process.getMemory() / this.memory.getTotalMemory();
             double heightProportion = (double)memoryPosition / this.memory.getTotalMemory();
@@ -71,6 +70,10 @@ public class SystemManager {
             System.out.printf("Processo %d alocado\n", process.getId());
             this.controller.allocateProcess(process, sizeProportion, heightProportion);
 
+            if(process.getId() != 0) {
+                TimeCounter counter = new TimeCounter(process.getTDurationProperty());
+                counter.start();
+            }
 
             TimerTask desallocate = new TimerTask() {
                 @Override
@@ -83,7 +86,7 @@ public class SystemManager {
                     this.cancel();
                 }
             };
-            this.timer.schedule(desallocate, process.getDuration() * SECOND_TIME);
+            this.timer.schedule(desallocate, process.getDuration() * Constants.TIME_SECOND.getValue());
 
             if(++this.actualProcess < this.processes.size()) {
                 Process nextProcess = processes.get(this.actualProcess);
@@ -102,13 +105,33 @@ public class SystemManager {
                         this.cancel();
                     }
                 };
-                this.timer.schedule(allocate, nextProcess.getCreationTime() * SECOND_TIME);
+                this.timer.schedule(allocate, nextProcess.getCreationTime() * Constants.TIME_SECOND.getValue());
             }
+            this.timer.schedule(desallocate, process.getDuration() * Constants.TIME_SECOND.getValue());
+
         }
         else if(!this.processesQueue.contains(process)){
             this.processesQueue.add(process);
             System.out.println("Processo nao pode ser alocado e entrou na fila");
         }
+
+        // schedule allocation of next process, if there is any
+        if(++this.actualProcess < this.processes.size()) {
+            Process nextProcess = processes.get(this.actualProcess);
+            TimerTask allocate = new TimerTask() {
+                @Override
+                public void run() {
+                    try {
+                        allocateProcess(nextProcess);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    this.cancel();
+                }
+            };
+            this.timer.schedule(allocate, nextProcess.getCreationTime() * Constants.TIME_SECOND.getValue());
+        }
+
     }
 
     private void desallocateProcess(Process process) throws InterruptedException {
@@ -116,11 +139,22 @@ public class SystemManager {
         this.memory.desallocateProcess(process);
         this.controller.desallocateProcess(process);
         System.out.printf("Processo %d desalocado\n", process.getId());
-        for(Process p : this.processesQueue) {
-            this.allocateProcess(p);
-            TimeCounter counter = new TimeCounter(p.getTDurationProperty());
-            counter.start();
+
+        List syncProcessQueue = Collections.synchronizedList(this.processesQueue);
+
+        try {
+            synchronized (syncProcessQueue) {
+                for (Iterator it = syncProcessQueue.iterator(); it.hasNext(); ) {
+                    Process p = syncProcessQueue.isEmpty() ? null : (Process) it.next();
+                    this.allocateProcess(p);
+                }
+            }
+        } catch (ConcurrentModificationException e) {
+            // do nothing
+        } catch (NullPointerException e2) {
+            // do nothing too (there is no process in queue)
         }
+
     }
 
     public ArrayList<Process> getProcesses() {
