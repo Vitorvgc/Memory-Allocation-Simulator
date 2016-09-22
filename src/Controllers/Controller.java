@@ -98,11 +98,12 @@ public class Controller {
                     if (p.getProcess().getId() == process.getId()) {
                         Platform.runLater(() -> this.memoryPane.getChildren().remove(p));
                         this.processes.remove(p);
+                        break;
                     }
                 }
             }
         } catch(ConcurrentModificationException e) {
-            return;
+            // do nothing
         }
     }
 
