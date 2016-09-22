@@ -1,6 +1,8 @@
 package sample;
 
+import Enums.Constants;
 import javafx.beans.property.StringProperty;
+import javafx.scene.layout.ConstraintsBase;
 
 /**
  * Created by Edy Junior on 22/09/2016.
@@ -22,7 +24,7 @@ public class TimeCounter extends Thread {
         long times[] = {System.currentTimeMillis(), System.currentTimeMillis()};
         for(int i = 0; counter > 0;) {
             long aux[] = {System.currentTimeMillis(), System.currentTimeMillis()};
-            if(aux[0] - times[0] >= 1000) {
+            if(aux[0] - times[0] >= Constants.TIME_SECOND.getValue()) {
                 timeProperty.setValue(String.valueOf(--counter));
                 times[0] = aux[0];
             }
