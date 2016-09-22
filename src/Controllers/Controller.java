@@ -56,11 +56,12 @@ public class Controller {
     @FXML
     private Label memoryUsedLabel;
     @FXML
-    private Label averageWaintingTimeLabel;
+    private Label averageWaitingTimeLabel;
 
     private ObservableList<Process> dataTable = FXCollections.observableArrayList();
 
     private StringProperty memoryUsedProperty;
+    private StringProperty averageWaitingTimeProperty;
 
     @FXML
     public void initialize() {
@@ -83,6 +84,14 @@ public class Controller {
             }
         });
         this.memoryUsedProperty.setValue("0 ( 0 % )");
+
+        this.averageWaitingTimeProperty = new SimpleStringProperty();
+        this.averageWaitingTimeProperty.addListener((observable, oldValue, newValue) -> {
+            if(newValue != null) {
+                Platform.runLater(() -> this.averageWaitingTimeLabel.setText(newValue));
+            }
+        });
+
 
         processesTable.setItems(dataTable);
     }
@@ -150,4 +159,6 @@ public class Controller {
     }
 
     public StringProperty getMemoryUsedProperty() { return memoryUsedProperty; }
+
+    public StringProperty getAverageWaitingTimeProperty() { return averageWaitingTimeProperty; }
 }

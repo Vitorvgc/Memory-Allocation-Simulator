@@ -21,7 +21,6 @@ public class SystemManager {
     private Clock clock;
     private int memoryUsed = 0;
 
-    private int memoryUsage;
     private int totalWaitTime;
     private int finishedProcesses;
 
@@ -39,7 +38,6 @@ public class SystemManager {
         this.actualProcess = 0;
         this.controller = controller;
         this.controller.setProcesses(getProcesses());
-        this.memoryUsage = 0;
         this.totalWaitTime = 0;
         this.finishedProcesses = 0;
         this.clock = new Clock(this.controller.getClockLabel());
@@ -77,7 +75,6 @@ public class SystemManager {
         // schedule desallocation of process
         if(memoryPosition != -1) {
 
-            this.memoryUsage += process.getMemory();
 
             process.getTAllocationProperty().setValue(String.format("%d", clock.getTime()));
 
@@ -140,14 +137,16 @@ public class SystemManager {
 
     private void desallocateProcess(Process process) throws InterruptedException {
 
-        this.memoryUsage -= process.getMemory();
         this.finishedProcesses++;
 
         process.getTWaitProperty().setValue(String.format("%d", clock.getTime() - process.getRealCreationTime()));
 
-        try {
-            this.totalWaitTime += Integer.parseInt(process.getTWaitProperty().getValue());
-        } catch (NumberFormatException e) {}
+        this.totalWaitTime += clock.getTime() - process.getRealCreationTime();
+
+        this.controller.getAverageWaitingTimeProperty().setValue(String.format("%d", this.totalWaitTime / this.finishedProcesses));
+
+        System.out.printf("%d %d\n", this.totalWaitTime, this.finishedProcesses);
+
 
         if(this.finishedProcesses == this.processes.size()) {
             // stop clock
