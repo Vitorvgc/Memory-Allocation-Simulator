@@ -23,7 +23,6 @@ public class TimeCounter extends Thread {
         for(int i = 0; counter > 0;) {
             long aux[] = {System.currentTimeMillis(), System.currentTimeMillis()};
             if(aux[0] - times[0] >= 1000) {
-                System.out.print("T = " + timeProperty.get() + "\n");
                 timeProperty.setValue(String.valueOf(--counter));
                 times[0] = aux[0];
             }
