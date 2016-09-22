@@ -44,16 +44,18 @@ public class ConfigurationController implements ControlledScreen {
     @FXML
     private Button startButton;
 
-    //private int numberOfElements = 9;
+    private ScreensController myController;
+    private Stage previousStage;
 
-    ScreensController myController;
-    Stage previousStage;
-    ArrayList<Process> processes;
+    private ArrayList<Process> processes;
+    private AllocationType allocationType;
+    private Process so;
+    private int totalMemory;
 
     @FXML
     private void initialize() {
         typeBox.setItems(FXCollections.observableArrayList(
-                "First fit", "Best fit", "Worst fit", "Next-fit")
+                "First fit", "Best fit", "Worst fit", "Next fit")
         );
         typeBox.setValue("First fit");
     }
@@ -91,11 +93,11 @@ public class ConfigurationController implements ControlledScreen {
         } catch (NumberFormatException e) {
             System.out.println("Deu ruim em algum campo!");
             return;
-        };
+        }
 
         Controller controller = loader.getController();
 
-        SystemManager systemManager = new SystemManager(processes, AllocationType.FIRST_FIT, 100, new Process(20), controller);
+        SystemManager systemManager = new SystemManager(processes, this.allocationType, this.totalMemory, this.so, controller);
 
         controller.setTotalProcesses(systemManager.getProcesses());
 
@@ -112,10 +114,21 @@ public class ConfigurationController implements ControlledScreen {
         int minDuration = Integer.parseInt(this.td1Text.getText());
         int maxDuration = Integer.parseInt(this.td2Text.getText());
         int processesNumber = Integer.parseInt(this.nProcessText.getText());
+        int soMemory = Integer.parseInt(this.sizeSOText.getText());
+        this.totalMemory = Integer.parseInt(this.sizeMemoryText.getText());
+        this.so = new Process(soMemory);
 
         this.processes = new ArrayList<>();
         for(int i = 0; i < processesNumber; i++)
             this.processes.add(new Process(minCreationTime, maxCreationTime, minDuration, maxDuration, minMemory, maxMemory));
+
+        switch (typeBox.getValue().toString()) {
+            case "First fit": this.allocationType = AllocationType.FIRST_FIT; break;
+            case "Best fit" : this.allocationType = AllocationType.BEST_FIT;  break;
+            case "Worst fit": this.allocationType = AllocationType.WORST_FIT; break;
+            case "Next fit" : this.allocationType = AllocationType.NEXT_FIT;  break;
+            default: Integer.parseInt("numberFormatException"); break;
+        }
     }
 
     public void setPreviousStage(Stage previousStage) {
