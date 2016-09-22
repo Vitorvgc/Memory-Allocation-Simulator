@@ -25,6 +25,7 @@ public class Controller {
     private static int MEMORY_HEIGHT = 550;
 
     private ArrayList<ProcessNode> processes;
+    private ProcessNode so;
 
     private ArrayList<Process> totalProcesses;
 
@@ -89,15 +90,19 @@ public class Controller {
 
         List safeProcesses = Collections.synchronizedList(this.processes);
 
-        synchronized (safeProcesses) {
-            for(Iterator it = safeProcesses.iterator(); it.hasNext();) {
-                ProcessNode p = safeProcesses.isEmpty() ? null : (ProcessNode) it.next();
-                if(p == null) break;
-                if (p.getProcess().getId() == process.getId()) {
-                    Platform.runLater(() -> this.memoryPane.getChildren().remove(p));
-                    this.processes.remove(p);
+        try {
+            synchronized (safeProcesses) {
+                for (Iterator it = safeProcesses.iterator(); it.hasNext(); ) {
+                    ProcessNode p = safeProcesses.isEmpty() ? null : (ProcessNode) it.next();
+                    if (p == null) break;
+                    if (p.getProcess().getId() == process.getId()) {
+                        Platform.runLater(() -> this.memoryPane.getChildren().remove(p));
+                        this.processes.remove(p);
+                    }
                 }
             }
+        } catch(ConcurrentModificationException e) {
+            return;
         }
     }
 

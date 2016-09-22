@@ -19,6 +19,7 @@ public class SystemManager {
     private AllocationType allocationType;
     private ArrayList<Process> processes;
     private ArrayList<Process> processesQueue;
+    private Process so;
     private Timer timer;
 
     private Controller controller;
@@ -30,6 +31,7 @@ public class SystemManager {
         this.allocationType = allocationType;
         this.memory = new Memory(totalMemory, so);
         this.processesQueue = new ArrayList<>();
+        this.so = so;
         this.timer = new Timer();
         this.actualProcess = 0;
         this.controller = controller;
@@ -37,6 +39,9 @@ public class SystemManager {
     }
 
     public void start() {
+
+        this.controller.allocateProcess(this.so, (double)so.getMemory() / memory.getTotalMemory(), (double)(memory.getTotalMemory() - so.getMemory()) / memory.getTotalMemory());
+
         TimerTask allocate = new TimerTask() {
             @Override
             public void run() {

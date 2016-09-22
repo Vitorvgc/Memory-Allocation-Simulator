@@ -34,7 +34,7 @@ public class ProcessNode extends AnchorPane {
         this.sprite = new Rectangle();
         this.sprite.setWidth(200);
         this.sprite.setHeight(height);
-        this.sprite.setFill(Paint.valueOf(colors[colorId]));
+        this.sprite.setFill(Paint.valueOf(this.process.getId() == 0 ? "0x000000" : colors[colorId]));
         this.sprite.setStroke(Paint.valueOf("#666666"));
 
         colorId = (colorId + 1) % colors.length;
@@ -42,6 +42,10 @@ public class ProcessNode extends AnchorPane {
 
     private void initIdText(double height) {
         this.idText = new Label(String.format("P%d", this.process.getId()));
+        if(this.process.getId() == 0) {
+            this.idText.setText("SO");
+            this.idText.setTextFill(Paint.valueOf("0xFFFFFF"));
+        }
         this.idText.setLayoutX(95);
         this.idText.setAlignment(Pos.CENTER);
     }
