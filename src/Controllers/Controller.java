@@ -7,11 +7,13 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Paint;
+import sample.Clock;
 import sample.Process;
 import sample.SystemManager;
 
@@ -27,14 +29,14 @@ public class Controller {
     private ArrayList<ProcessNode> processes;
     private ProcessNode so;
 
-    private ArrayList<Process> totalProcesses;
-
     @FXML
     private Pane memoryPane;
     @FXML
     private TableView <Process> processesTable;
     @FXML
     private AnchorPane waitingPane;
+    @FXML
+    private Label clockLabel;
     @FXML
     private TableColumn<Process, String> idColumn;
     @FXML
@@ -53,11 +55,6 @@ public class Controller {
     private TableColumn<Process, String> tAllocationColumn;
 
     private ObservableList<Process> dataTable = FXCollections.observableArrayList();
-
-    public Controller() {
-
-        //dataTable = FXCollections.observableArrayList(SystemManager.get)
-    }
 
     @FXML
     public void initialize() {
@@ -79,7 +76,6 @@ public class Controller {
         ProcessNode node = new ProcessNode(process, sizeProportion * MEMORY_HEIGHT);
 
         node.getSprite().setY(heightProportion * MEMORY_HEIGHT);
-
         node.getIdText().setLayoutY((sizeProportion/2 + heightProportion) * MEMORY_HEIGHT - 5);
 
         Platform.runLater(() -> this.processes.add(node));
@@ -126,4 +122,7 @@ public class Controller {
         }
     }
 
+    public Label getClockLabel() {
+        return clockLabel;
+    }
 }
