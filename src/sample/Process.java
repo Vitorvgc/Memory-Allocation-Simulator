@@ -28,7 +28,6 @@ public class Process {
         this.duration = Integer.MAX_VALUE;
         this.memory = memory;
         this.id = ++globalId;
-        this.id = 2;
 
         idProperty = new SimpleStringProperty("0");
         tCreationProperty = new SimpleStringProperty("0");
@@ -44,7 +43,6 @@ public class Process {
         this.duration = random.nextInt((int)min(maxDuration - minDuration, 1)) + minDuration;
         this.memory = random.nextInt((int)min(maxMemory - minMemory, 1)) + minMemory;
         this.id = ++globalId;
-        this.id = 2;
 
         idProperty = new SimpleStringProperty(String.format("%d", id));
         tCreationProperty = new SimpleStringProperty(String.format("%d", creationTime));

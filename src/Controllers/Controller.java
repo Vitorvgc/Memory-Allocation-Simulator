@@ -16,9 +16,7 @@ import sample.Process;
 import sample.SystemManager;
 
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
+import java.util.*;
 import java.util.concurrent.Semaphore;
 
 
@@ -63,7 +61,8 @@ public class Controller {
     @FXML
     public void initialize() {
 
-        allocateProcess(new Process(20), 0.5, 0.5);
+        //allocateProcess(new Process(20), 0.5, 0.5);
+        this.processes = new ArrayList<>();
 
         //this.nameColumn.setCellValueFactory(cellData -> cellData.getValue().senhaPropertyProperty());
         this.tCreationColumn.setCellValueFactory(cellData -> cellData.getValue().getTCreationProperty());
@@ -77,48 +76,28 @@ public class Controller {
 
         ProcessNode node = new ProcessNode(process, sizeProportion * MEMORY_HEIGHT);
 
-        node.setY(heightProportion * MEMORY_HEIGHT);
+        node.getSprite().setY(heightProportion * MEMORY_HEIGHT);
 
-        node.setFill(Paint.valueOf("#0000CC88"));
+        node.getIdText().setLayoutY((sizeProportion/2 + heightProportion) * MEMORY_HEIGHT - 5);
 
-//        this.processes.add(node);
-
-        //System.out.println(node.getProcess());
-
+        Platform.runLater(() -> this.processes.add(node));
         Platform.runLater(() -> memoryPane.getChildren().add(node));
-
     }
 
     public void desallocateProcess(Process process) {
 
-        //System.out.printf("Process: ");
-        //System.out.println(process);
+        List safeProcesses = Collections.synchronizedList(this.processes);
 
-
-        /** problemas com concorrencia **/
-        /** http://blog.caelum.com.br/concurrentmodificationexception-e-os-fail-fast-iterators/ **/
-
-        for (Iterator<ProcessNode> it = this.processes.iterator(); it.hasNext(); ) {
-            ProcessNode p = it.next();
-            if (p.getProcess().getId() == process.getId()) {
-                Platform.runLater(() -> this.memoryPane.getChildren().remove(p));
-                this.processes.remove(p);
-                //System.out.println("morreu");
+        synchronized (safeProcesses) {
+            for(Iterator it = safeProcesses.iterator(); it.hasNext();) {
+                ProcessNode p = safeProcesses.isEmpty() ? null : (ProcessNode) it.next();
+                if(p == null) break;
+                if (p.getProcess().getId() == process.getId()) {
+                    Platform.runLater(() -> this.memoryPane.getChildren().remove(p));
+                    this.processes.remove(p);
+                }
             }
         }
-
-
-        /*
-        for(ProcessNode p : processes) {
-            //System.out.print(p.getProcess());
-            if (p.getProcess().getId() == process.getId()) {
-                Platform.runLater(() -> this.memoryPane.getChildren().remove(p));
-                this.processes.remove(p);
-                //System.out.println("morreu");
-            }
-        }
-        */
-
     }
 
     public void setProcesses(ArrayList<Process> totalProcesses) {
