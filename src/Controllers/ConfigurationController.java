@@ -75,7 +75,7 @@ public class ConfigurationController implements ControlledScreen {
         stage.show();
 
 
-        Process a = new Process(5,5,5,5,5,5);
+        Process a = new Process(5,5,5,5,25,25);
         Process b = new Process(2,2,5,5,15,15);
         Process c = new Process(3,3,5,5,10,10);
         Process d = new Process(20,20,5,5,40,40);
@@ -84,9 +84,7 @@ public class ConfigurationController implements ControlledScreen {
         processes.add(a);
         processes.add(b);
         processes.add(c);
-
-        System.out.printf("Todos os processos: ");
-        System.out.println(Arrays.toString(processes.toArray()));
+        processes.add(d);
 
         Controller controller = loader.getController();
 
