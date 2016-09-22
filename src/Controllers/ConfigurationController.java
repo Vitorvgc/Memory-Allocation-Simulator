@@ -15,14 +15,11 @@ import sample.Process;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * Created by edvaldojunior on 20/09/16.
  */
 public class ConfigurationController implements ControlledScreen {
-
-    Stage previousStage;
 
     @FXML
     private ChoiceBox typeBox;
@@ -47,9 +44,11 @@ public class ConfigurationController implements ControlledScreen {
     @FXML
     private Button startButton;
 
-    private int numberOfElements = 9;
+    //private int numberOfElements = 9;
 
     ScreensController myController;
+    Stage previousStage;
+    ArrayList<Process> processes;
 
     @FXML
     private void initialize() {
@@ -74,7 +73,7 @@ public class ConfigurationController implements ControlledScreen {
         stage.setScene(new Scene(root, 770, 680));
         stage.show();
 
-
+        /*
         Process a = new Process(5,5,5,5,25,25);
         Process b = new Process(2,2,5,5,15,15);
         Process c = new Process(3,3,5,5,10,10);
@@ -85,6 +84,14 @@ public class ConfigurationController implements ControlledScreen {
         processes.add(b);
         processes.add(c);
         processes.add(d);
+        */
+
+        try {
+            this.getData();
+        } catch (NumberFormatException e) {
+            System.out.println("Deu ruim em algum campo!");
+            return;
+        };
 
         Controller controller = loader.getController();
 
@@ -96,6 +103,21 @@ public class ConfigurationController implements ControlledScreen {
 
     }
 
+    private void getData() throws NumberFormatException {
+
+        int minMemory = Integer.parseInt(this.m1Text.getText());
+        int maxMemory = Integer.parseInt(this.m2Text.getText());
+        int minCreationTime = Integer.parseInt(this.tc1Text.getText());
+        int maxCreationTime = Integer.parseInt(this.tc2Text.getText());
+        int minDuration = Integer.parseInt(this.td1Text.getText());
+        int maxDuration = Integer.parseInt(this.td2Text.getText());
+        int processesNumber = Integer.parseInt(this.nProcessText.getText());
+
+        this.processes = new ArrayList<>();
+        for(int i = 0; i < processesNumber; i++)
+            this.processes.add(new Process(minCreationTime, maxCreationTime, minDuration, maxDuration, minMemory, maxMemory));
+    }
+
     public void setPreviousStage(Stage previousStage) {
         this.previousStage = previousStage;
     }
@@ -104,4 +126,6 @@ public class ConfigurationController implements ControlledScreen {
     public void setScreenParent(ScreensController screenParent) {
         myController = screenParent;
     }
+
+
 }
