@@ -29,8 +29,6 @@ public class Controller {
     private ArrayList<ProcessNode> processes;
     private ProcessNode so;
 
-    private ArrayList<Process> totalProcesses;
-
     @FXML
     private Pane memoryPane;
     @FXML
@@ -58,13 +56,6 @@ public class Controller {
 
     private ObservableList<Process> dataTable = FXCollections.observableArrayList();
 
-    public SystemManager system;
-
-    public Controller() {
-
-        //dataTable = FXCollections.observableArrayList(SystemManager.get)
-    }
-
     @FXML
     public void initialize() {
 
@@ -77,9 +68,6 @@ public class Controller {
         this.memoryColumn.setCellValueFactory(cellData -> cellData.getValue().getMemoryProperty());
         this.idColumn.setCellValueFactory(cellData -> cellData.getValue().getIDProperty());
 
-//        Clock clock = new Clock(this.clockLabel);
-//        clock.start();
-
         processesTable.setItems(dataTable);
     }
 
@@ -88,18 +76,10 @@ public class Controller {
         ProcessNode node = new ProcessNode(process, sizeProportion * MEMORY_HEIGHT);
 
         node.getSprite().setY(heightProportion * MEMORY_HEIGHT);
-
         node.getIdText().setLayoutY((sizeProportion/2 + heightProportion) * MEMORY_HEIGHT - 5);
 
         Platform.runLater(() -> this.processes.add(node));
         Platform.runLater(() -> memoryPane.getChildren().add(node));
-
-        if(system != null) {
-            System.out.print("CADÊ???\n");
-            Platform.runLater(() -> this.clockLabel.setText(String.format("%d", system.getClock().getTime())));
-        } else {
-            System.out.print("Relogio NULO\n");
-        }
     }
 
     public void desallocateProcess(Process process) {
@@ -128,7 +108,7 @@ public class Controller {
         }
     }
 
-    public void setSystem(SystemManager system) {
-        this.system = system;
+    public Label getClockLabel() {
+        return clockLabel;
     }
 }

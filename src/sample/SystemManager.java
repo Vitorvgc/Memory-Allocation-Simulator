@@ -37,7 +37,7 @@ public class SystemManager {
         this.actualProcess = 0;
         this.controller = controller;
         this.controller.setProcesses(getProcesses());
-        this.clock = new Clock();
+        this.clock = new Clock(this.controller.getClockLabel());
         clock.start();
     }
 

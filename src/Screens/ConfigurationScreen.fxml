@@ -12,10 +12,10 @@
          <tooltip>
             <Tooltip text="Quantidade de processos que serão criados" />
          </tooltip></TextField>
-      <TextField fx:id="m1Text" alignment="CENTER" layoutX="93.0" layoutY="241.0" prefWidth="176.0" promptText="M1">
+      <ChoiceBox fx:id="typeBox" layoutX="93.0" layoutY="89.0" prefHeight="27.0" prefWidth="176.0">
          <tooltip>
-            <Tooltip text="Limite inferior do intervalo para gerar aleatoriamente a área ocupada por cada processo na memória(MB)" />
-         </tooltip></TextField>
+            <Tooltip text="Estratégia de alocação utilizada" />
+         </tooltip></ChoiceBox>
       <TextField fx:id="sizeMemoryText" alignment="CENTER" layoutX="93.0" layoutY="145.0" prefHeight="27.0" prefWidth="176.0" promptText="Tamanho da memória real">
          <tooltip>
             <Tooltip text="Tamanho da memória real (MB)" />
@@ -24,10 +24,10 @@
          <tooltip>
             <Tooltip text="Tamanho da área de memória ocupada pelo sistema operacional (MB)" />
          </tooltip></TextField>
-      <ChoiceBox fx:id="typeBox" layoutX="93.0" layoutY="89.0" prefHeight="27.0" prefWidth="176.0">
+      <TextField fx:id="m1Text" alignment="CENTER" layoutX="93.0" layoutY="241.0" prefWidth="176.0" promptText="M1">
          <tooltip>
-            <Tooltip text="Estratégia de alocação utilizada" />
-         </tooltip></ChoiceBox>
+            <Tooltip text="Limite inferior do intervalo para gerar aleatoriamente a área ocupada por cada processo na memória(MB)" />
+         </tooltip></TextField>
       <TextField fx:id="m2Text" alignment="CENTER" layoutX="93.0" layoutY="291.0" prefWidth="176.0" promptText="M2">
          <tooltip>
             <Tooltip text="Limite superior do intervalo para gerar aleatoriamente a área ocupada por cada processo na memória(MB)" />
