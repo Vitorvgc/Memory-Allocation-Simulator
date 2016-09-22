@@ -69,8 +69,10 @@ public class SystemManager {
 
         int memoryPosition = this.memory.allocateProcess(process, this.allocationType);
 
-        process.setRealCreationTime(getClock().getTime());
-        process.getTRealCreationProperty().setValue(String.format("%d", getClock().getTime()));
+        if(process.getTRealCreationProperty().getValue().equals("0")) {
+            process.setRealCreationTime(getClock().getTime());
+            process.getTRealCreationProperty().setValue(String.format("%d", getClock().getTime()));
+        }
 
         // schedule desallocation of process
         if(memoryPosition != -1) {
