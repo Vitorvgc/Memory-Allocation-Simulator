@@ -27,7 +27,6 @@ public class Controller {
     private static int MEMORY_HEIGHT = 550;
 
     private ArrayList<ProcessNode> processes;
-    private ArrayList<ProcessNode> processQueue;
     private ProcessNode so;
 
     @FXML
@@ -135,10 +134,10 @@ public class Controller {
 
         Platform.runLater(() -> this.waitingPane.getChildren().clear());
 
+        this.waitingPane.setLayoutX(processes.size() * 30);
+
         for(int i = 0; i < processes.size(); i++) {
             Process process = processes.get(i);
-
-            System.out.printf("P%d ", process.getId());
 
             ProcessNode node = new ProcessNode(process, 10);
             node.toMiniVisualization();
@@ -148,7 +147,6 @@ public class Controller {
             Platform.runLater(() -> this.waitingPane.getChildren().add(node));
 
         }
-        System.out.println();
     }
 
     public void setProcesses(ArrayList<Process> totalProcesses) {

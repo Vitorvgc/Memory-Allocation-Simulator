@@ -12,7 +12,6 @@ import sample.Process;
  */
 public class ProcessNode extends AnchorPane {
 
-    private static int colorId = 0;
     private static String colors[] = {"#0000CC88", "#CC000088", "#00CC0088"};
 
     private Process process;
@@ -34,10 +33,9 @@ public class ProcessNode extends AnchorPane {
         this.sprite = new Rectangle();
         this.sprite.setWidth(200);
         this.sprite.setHeight(height);
-        this.sprite.setFill(Paint.valueOf(this.process.getId() == 0 ? "0x000000" : colors[colorId]));
+        this.sprite.setFill(Paint.valueOf(this.process.getId() == 0 ? "0x000000" : colors[(this.process.getId() - 1) % colors.length]));
         this.sprite.setStroke(Paint.valueOf("#666666"));
-
-        colorId = (colorId + 1) % colors.length;
+        this.sprite.setStrokeWidth(2);
     }
 
     private void initIdText(double height) {

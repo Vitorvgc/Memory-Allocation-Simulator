@@ -67,7 +67,7 @@ public class ConfigurationController implements ControlledScreen {
         try {
             this.getData();
         } catch (NumberFormatException e) {
-            System.out.println("Deu ruim em algum campo!");
+            System.out.println("ERROR: Algum campo invalido");
             return;
         }
 

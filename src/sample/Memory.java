@@ -79,7 +79,7 @@ public class Memory {
     private int allocateProcessWithBestFit(Process process) {
         int pos = 0;
         int minPosition = -1, minSize = Integer.MAX_VALUE, minPos = -1;
-        for(int i = 0; i < this.memory.size(); i++, pos += this.memory.get(i).size) {
+        for(int i = 0; i < this.memory.size(); pos += this.memory.get(i).size, i++) {
             Node actual = this.memory.get(i);
             if (actual.free && actual.size >= process.getMemory() && actual.size < minSize) {
                 minPosition = i;

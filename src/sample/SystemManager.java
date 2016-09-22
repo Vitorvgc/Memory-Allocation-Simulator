@@ -149,9 +149,6 @@ public class SystemManager {
 
         this.controller.getAverageWaitingTimeProperty().setValue(String.format("%d", this.totalWaitTime / this.finishedProcesses));
 
-        System.out.printf("%d %d\n", this.totalWaitTime, this.finishedProcesses);
-
-
         if(this.finishedProcesses == this.processes.size()) {
             // stop clock
             System.out.println("--- Fim ---");
