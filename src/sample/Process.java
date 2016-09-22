@@ -39,9 +39,9 @@ public class Process {
 
         Random random = new Random();
 
-        this.creationTime =  random.nextInt((int)min(maxCreationTime - minCreationTime, 1)) + minCreationTime;
-        this.duration = random.nextInt((int)min(maxDuration - minDuration, 1)) + minDuration;
-        this.memory = random.nextInt((int)min(maxMemory - minMemory, 1)) + minMemory;
+        this.creationTime =  random.nextInt(maxCreationTime - minCreationTime) + minCreationTime;
+        this.duration = random.nextInt(maxDuration - minDuration) + minDuration;
+        this.memory = random.nextInt(maxMemory - minMemory) + minMemory;
         this.id = ++globalId;
 
         idProperty = new SimpleStringProperty(String.format("%d", id));
