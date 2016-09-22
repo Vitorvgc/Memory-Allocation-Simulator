@@ -20,7 +20,7 @@ import java.util.*;
 import java.util.concurrent.Semaphore;
 
 
-public class Controller implements ControlledScreen {
+public class Controller {
 
     private static int MEMORY_HEIGHT = 550;
 
@@ -48,22 +48,14 @@ public class Controller implements ControlledScreen {
     private TableColumn<Process, String> tAlocationColumn;
     @FXML
     private TableColumn<Process, String> tEndColumn;
+    @FXML
+    private TableColumn<Process, String> tAllocationColumn;
 
-//    private final StringProperty idProperty, tCreationProperty, tDurationProperty, tEndProperty,
-//                                 memoryProperty, tWaitProperty, tAlocationProperty;
-
-    ScreensController myController;
-
-    private ObservableList<Process> dataTable;
+    private ObservableList<Process> dataTable = FXCollections.observableArrayList();
 
     public Controller() {
 
         //dataTable = FXCollections.observableArrayList(SystemManager.get)
-    }
-
-    @Override
-    public void setScreenParent(ScreensController screenParent) {
-        myController = screenParent;
     }
 
     @FXML
@@ -108,10 +100,10 @@ public class Controller implements ControlledScreen {
         }
     }
 
-    public void setTotalProcesses(ArrayList<Process> totalProcesses) {
-        this.totalProcesses = totalProcesses;
-        dataTable = FXCollections.observableArrayList(this.totalProcesses);
-        System.out.print("Processos = " + dataTable);
+    public void setProcesses(ArrayList<Process> totalProcesses) {
+        for(Process process : totalProcesses) {
+            dataTable.add(process);
+        }
     }
 
 }
