@@ -62,6 +62,9 @@ public class SystemManager {
         // schedule desallocation of process
         if(memoryPosition != -1) {
 
+            process.getTAllocationProperty().setValue(String.format("%d", clock.getTime()));
+            process.getTEndProperty().setValue(String.format("%d", clock.getTime() + process.getDuration()));
+
             if(this.processesQueue.contains(process)) this.processesQueue.remove(process);
 
             double sizeProportion = (double)process.getMemory() / this.memory.getTotalMemory();
@@ -87,28 +90,6 @@ public class SystemManager {
                 }
             };
             this.timer.schedule(desallocate, process.getDuration() * Constants.TIME_SECOND.getValue());
-
-            if(++this.actualProcess < this.processes.size()) {
-                Process nextProcess = processes.get(this.actualProcess);
-                TimerTask allocate = new TimerTask() {
-                    @Override
-                    public void run() {
-                        try {
-                            allocateProcess(nextProcess);
-                            TimeCounter counter = new TimeCounter(nextProcess.getTDurationProperty());
-                            counter.start();
-                            nextProcess.getTAlocationProperty().setValue(String.format("%d", clock.getTime()));
-                            nextProcess.getTEndProperty().setValue(String.format("%d", clock.getTime() + nextProcess.getDuration()));
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                        this.cancel();
-                    }
-                };
-                this.timer.schedule(allocate, nextProcess.getCreationTime() * Constants.TIME_SECOND.getValue());
-            }
-            this.timer.schedule(desallocate, process.getDuration() * Constants.TIME_SECOND.getValue());
-
         }
         else if(!this.processesQueue.contains(process)){
             this.processesQueue.add(process);
@@ -135,6 +116,8 @@ public class SystemManager {
     }
 
     private void desallocateProcess(Process process) throws InterruptedException {
+
+        //process.getTWaitProperty().setValue(String.format("%d", clock.getTime() - process.get));
 
         this.memory.desallocateProcess(process);
         this.controller.desallocateProcess(process);

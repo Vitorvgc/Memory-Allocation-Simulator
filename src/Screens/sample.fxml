@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TableColumn?>
@@ -8,28 +12,56 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="680.0" minWidth="770.0" prefHeight="680.0" prefWidth="770.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Controller">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="680.0" minWidth="770.0" prefHeight="680.0" prefWidth="830.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Controller">
     <children>
-        <Pane fx:id="memoryPane" layoutX="522.0" layoutY="90.0" prefHeight="550.0" prefWidth="200.0" style="-fx-border-color: gray;" />
-        <ScrollPane layoutX="36.0" layoutY="476.0" prefHeight="164.0" prefWidth="461.0">
+        <Pane fx:id="memoryPane" layoutX="598.0" layoutY="90.0" prefHeight="550.0" prefWidth="200.0" style="-fx-border-color: gray;" />
+        <ScrollPane layoutX="36.0" layoutY="589.0" prefHeight="51.0" prefWidth="531.0">
             <content>
-                <AnchorPane fx:id="waitingPane" minHeight="0.0" minWidth="0.0" prefHeight="162.0" prefWidth="459.0" />
+                <AnchorPane fx:id="waitingPane" minHeight="0.0" minWidth="0.0" prefHeight="49.0" prefWidth="529.0" />
             </content>
         </ScrollPane>
-        <Label layoutX="598.0" layoutY="59.0" text="Memória" />
-        <TableView fx:id="processesTable" layoutX="36.0" layoutY="90.0" prefHeight="368.0" prefWidth="461.0">
+        <Label layoutX="658.0" layoutY="53.0" text="Memória">
+         <font>
+            <Font size="20.0" />
+         </font></Label>
+        <TableView fx:id="processesTable" layoutX="36.0" layoutY="191.0" prefHeight="377.0" prefWidth="531.0">
             <columns>
                 <TableColumn fx:id="idColumn" editable="false" prefWidth="59.0" sortable="false" text="Processo" />
-                <TableColumn fx:id="tCreationColumn" prefWidth="71.0" text="Criação" />
-            <TableColumn prefWidth="81.0" text="Alocação" />
-                <TableColumn fx:id="tDurationColumn" prefWidth="71.0" text="Duração" />
                 <TableColumn fx:id="memoryColumn" prefWidth="72.0" text="Memória" />
-                <TableColumn fx:id="tWaitColumn" prefWidth="106.0" text="Tempo Espera" />
+                <TableColumn fx:id="tCreationColumn" prefWidth="71.0" text="Criação">
+               <columns>
+                  <TableColumn prefWidth="50.0" text="Rel." />
+                  <TableColumn prefWidth="50.0" text="Real" />
+               </columns></TableColumn>
+                <TableColumn fx:id="tAllocationColumn" prefWidth="81.0" text="Alocação" />
+                <TableColumn fx:id="tDurationColumn" prefWidth="59.0" text="Duração" />
+                <TableColumn fx:id="tEndColumn" prefWidth="66.0" text="Fim" />
+                <TableColumn fx:id="tWaitColumn" prefWidth="93.0" text="Tempo Espera" />
             </columns>
         </TableView>
-      <Label fx:id="clockLabel" alignment="CENTER" layoutX="331.0" layoutY="17.0" prefHeight="50.0" prefWidth="109.0" textAlignment="CENTER" textFill="#c31414">
+      <Label fx:id="clockLabel" alignment="CENTER" layoutX="385.0" layoutY="17.0" prefHeight="50.0" prefWidth="109.0" textAlignment="CENTER" textFill="#c31414">
          <font>
             <Font size="35.0" />
+         </font>
+      </Label>
+      <Label layoutX="36.0" layoutY="90.0" text="Tempo médio de espera">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="36.0" layoutY="132.0" text="Uso da memória">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="267.0" layoutY="92.0" text="0">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="267.0" layoutY="134.0" text="0">
+         <font>
+            <Font size="18.0" />
          </font>
       </Label>
     </children>

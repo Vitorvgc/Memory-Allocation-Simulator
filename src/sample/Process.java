@@ -20,7 +20,7 @@ public class Process {
     private int id;
 
 
-    private StringProperty idProperty, tCreationProperty, tDurationProperty, memoryProperty, tEndProperty, tWaitProperty, tAlocationProperty;
+    private StringProperty idProperty, tCreationProperty, tDurationProperty, memoryProperty, tEndProperty, tWaitProperty, tAllocationProperty;
 
     public Process(int memory) {
         this.creationTime = 0;
@@ -34,7 +34,7 @@ public class Process {
         memoryProperty = new SimpleStringProperty("0");
         tEndProperty = new SimpleStringProperty("-");
         tWaitProperty = new SimpleStringProperty("-");
-        tAlocationProperty = new SimpleStringProperty("-");
+        tAllocationProperty = new SimpleStringProperty("-");
     }
 
     public Process(int minCreationTime, int maxCreationTime, int minDuration, int maxDuration, int minMemory, int maxMemory) {
@@ -52,7 +52,7 @@ public class Process {
         memoryProperty = new SimpleStringProperty(String.format("%d", memory));
         tEndProperty = new SimpleStringProperty("-");
         tWaitProperty = new SimpleStringProperty("-");
-        tAlocationProperty = new SimpleStringProperty("-");
+        tAllocationProperty = new SimpleStringProperty("-");
 
         if(this.creationTime < 0 || this.duration < 0 || this.memory < 0)
             System.out.println("WARNING: Process with negative values");
@@ -88,7 +88,7 @@ public class Process {
         return tWaitProperty;
     }
 
-    public StringProperty getTAlocationProperty() {
-        return tAlocationProperty;
+    public StringProperty getTAllocationProperty() {
+        return tAllocationProperty;
     }
 }

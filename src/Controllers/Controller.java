@@ -48,8 +48,6 @@ public class Controller {
     @FXML
     private TableColumn<Process, String> tWaitColumn;
     @FXML
-    private TableColumn<Process, String> tAlocationColumn;
-    @FXML
     private TableColumn<Process, String> tEndColumn;
     @FXML
     private TableColumn<Process, String> tAllocationColumn;
@@ -62,10 +60,13 @@ public class Controller {
         //allocateProcess(new Process(20), 0.5, 0.5);
         this.processes = new ArrayList<>();
 
-        this.tCreationColumn.setCellValueFactory(cellData -> cellData.getValue().getTCreationProperty());
-        this.tDurationColumn.setCellValueFactory(cellData -> cellData.getValue().getTDurationProperty());
-        this.memoryColumn.setCellValueFactory(cellData -> cellData.getValue().getMemoryProperty());
         this.idColumn.setCellValueFactory(cellData -> cellData.getValue().getIDProperty());
+        this.memoryColumn.setCellValueFactory(cellData -> cellData.getValue().getMemoryProperty());
+        this.tCreationColumn.setCellValueFactory(cellData -> cellData.getValue().getTCreationProperty());
+        this.tAllocationColumn.setCellValueFactory(cellData -> cellData.getValue().getTAllocationProperty());
+        this.tDurationColumn.setCellValueFactory(cellData -> cellData.getValue().getTDurationProperty());
+        this.tEndColumn.setCellValueFactory(cellData -> cellData.getValue().getTEndProperty());
+
 
         processesTable.setItems(dataTable);
     }
