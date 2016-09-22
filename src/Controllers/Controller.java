@@ -68,6 +68,7 @@ public class Controller {
         this.tCreationColumn.setCellValueFactory(cellData -> cellData.getValue().getTCreationProperty());
         this.tDurationColumn.setCellValueFactory(cellData -> cellData.getValue().getTDurationProperty());
         this.memoryColumn.setCellValueFactory(cellData -> cellData.getValue().getMemoryProperty());
+        this.idColumn.setCellValueFactory(cellData -> cellData.getValue().getIDProperty());
 
         processesTable.setItems(dataTable);
     }
