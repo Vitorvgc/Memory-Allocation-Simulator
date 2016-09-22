@@ -92,7 +92,7 @@ public class ConfigurationController implements ControlledScreen {
 
         SystemManager systemManager = new SystemManager(processes, AllocationType.FIRST_FIT, 100, new Process(20), controller);
 
-        controller.setTotalProcesses(systemManager.getProcesses());
+        //controller.setProcesses(systemManager.getProcesses());
 
         systemManager.start();
 

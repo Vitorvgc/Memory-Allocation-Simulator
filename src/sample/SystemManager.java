@@ -36,6 +36,7 @@ public class SystemManager {
         this.timer = new Timer();
         this.actualProcess = 0;
         this.controller = controller;
+        this.controller.setProcesses(getProcesses());
 
         this.allocationMutex = new Semaphore(1);
         this.desallocationMutex = new Semaphore(1);
@@ -88,6 +89,8 @@ public class SystemManager {
                     public void run() {
                         try {
                             allocateProcess(nextProcess);
+//                            TimeCounter counter = new TimeCounter(nextProcess.getTDurationProperty());
+//                            counter.start();
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
