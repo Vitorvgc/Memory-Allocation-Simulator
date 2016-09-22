@@ -42,6 +42,8 @@ public class Controller {
     @FXML
     private TableColumn<Process, String> tCreationColumn;
     @FXML
+    private TableColumn<Process, String> tRealCreationColumn;
+    @FXML
     private TableColumn<Process, String> tDurationColumn;
     @FXML
     private TableColumn<Process, String> memoryColumn;
@@ -51,8 +53,14 @@ public class Controller {
     private TableColumn<Process, String> tEndColumn;
     @FXML
     private TableColumn<Process, String> tAllocationColumn;
+    @FXML
+    private Label memoryUsedLabel;
+    @FXML
+    private Label averageWaintingTimeLabel;
 
     private ObservableList<Process> dataTable = FXCollections.observableArrayList();
+
+    private StringProperty memoryUsedProperty;
 
     @FXML
     public void initialize() {
@@ -62,10 +70,19 @@ public class Controller {
         this.idColumn.setCellValueFactory(cellData -> cellData.getValue().getIDProperty());
         this.memoryColumn.setCellValueFactory(cellData -> cellData.getValue().getMemoryProperty());
         this.tCreationColumn.setCellValueFactory(cellData -> cellData.getValue().getTCreationProperty());
+        this.tRealCreationColumn.setCellValueFactory(cellData -> cellData.getValue().getTRealCreationProperty());
         this.tAllocationColumn.setCellValueFactory(cellData -> cellData.getValue().getTAllocationProperty());
         this.tDurationColumn.setCellValueFactory(cellData -> cellData.getValue().getTDurationProperty());
         this.tEndColumn.setCellValueFactory(cellData -> cellData.getValue().getTEndProperty());
+        this.tWaitColumn.setCellValueFactory(cellData -> cellData.getValue().getTWaitProperty());
 
+        this.memoryUsedProperty = new SimpleStringProperty();
+        this.memoryUsedProperty.addListener((observable, oldValue, newValue) -> {
+            if(newValue != null) {
+                Platform.runLater(() -> this.memoryUsedLabel.setText(newValue));
+            }
+        });
+        this.memoryUsedProperty.setValue("0 ( 0 % )");
 
         processesTable.setItems(dataTable);
     }
@@ -131,4 +148,6 @@ public class Controller {
     public Label getClockLabel() {
         return clockLabel;
     }
+
+    public StringProperty getMemoryUsedProperty() { return memoryUsedProperty; }
 }

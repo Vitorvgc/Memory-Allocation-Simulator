@@ -85,7 +85,6 @@ public class ConfigurationController implements ControlledScreen {
         Controller controller = loader.getController();
 
         SystemManager systemManager = new SystemManager(processes, this.allocationType, this.totalMemory, this.so, controller);
-
         systemManager.start();
 
     }
@@ -126,6 +125,5 @@ public class ConfigurationController implements ControlledScreen {
     public void setScreenParent(ScreensController screenParent) {
         myController = screenParent;
     }
-
 
 }
