@@ -12,7 +12,7 @@
         <Pane fx:id="memoryPane" layoutX="522.0" layoutY="90.0" prefHeight="550.0" prefWidth="200.0" style="-fx-border-color: gray;" />
         <ScrollPane layoutX="36.0" layoutY="476.0" prefHeight="164.0" prefWidth="461.0">
             <content>
-                <AnchorPane fx:id="wantingPane" minHeight="0.0" minWidth="0.0" prefHeight="162.0" prefWidth="459.0" />
+                <AnchorPane fx:id="waitingPane" minHeight="0.0" minWidth="0.0" prefHeight="162.0" prefWidth="459.0" />
             </content>
         </ScrollPane>
         <Label layoutX="598.0" layoutY="59.0" text="Memória" />

@@ -56,23 +56,6 @@ public class SystemManager {
 
         int memoryPosition = this.memory.allocateProcess(process, this.allocationType);
 
-        // schedule allocation of next process, if there is any
-        if(++this.actualProcess < this.processes.size()) {
-            Process nextProcess = processes.get(this.actualProcess);
-            TimerTask allocate = new TimerTask() {
-                @Override
-                public void run() {
-                    try {
-                        allocateProcess(nextProcess);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    this.cancel();
-                }
-            };
-            this.timer.schedule(allocate, nextProcess.getCreationTime() * Constants.TIME_SECOND.getValue());
-        }
-
         // schedule desallocation of process
         if(memoryPosition != -1) {
 
@@ -107,6 +90,24 @@ public class SystemManager {
             this.processesQueue.add(process);
             System.out.println("Processo nao pode ser alocado, entrou na fila");
         }
+
+        // schedule allocation of next process, if there is any
+        if(++this.actualProcess < this.processes.size()) {
+            Process nextProcess = processes.get(this.actualProcess);
+            TimerTask allocate = new TimerTask() {
+                @Override
+                public void run() {
+                    try {
+                        allocateProcess(nextProcess);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    this.cancel();
+                }
+            };
+            this.timer.schedule(allocate, nextProcess.getCreationTime() * Constants.TIME_SECOND.getValue());
+        }
+
     }
 
     private void desallocateProcess(Process process) throws InterruptedException {
@@ -126,6 +127,8 @@ public class SystemManager {
             }
         } catch (ConcurrentModificationException e) {
             // do nothing
+        } catch (NullPointerException e2) {
+            // do nothing too (there is no process in queue)
         }
 
     }

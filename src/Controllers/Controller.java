@@ -34,7 +34,7 @@ public class Controller {
     @FXML
     private TableView <Process> processesTable;
     @FXML
-    private AnchorPane wantingPane;
+    private AnchorPane waitingPane;
     @FXML
     private TableColumn<Process, String> idColumn;
     @FXML
@@ -104,6 +104,19 @@ public class Controller {
             }
         } catch(ConcurrentModificationException e) {
             // do nothing
+        }
+    }
+
+    public void updateQueue(ArrayList<Process> processes) {
+
+        for(Process process : processes) {
+
+            ProcessNode node = new ProcessNode(process, 0);
+            node.setLayoutX(50);
+            node.setLayoutY(50);
+
+            Platform.runLater(() -> this.waitingPane.getChildren().add(node));
+
         }
     }
 
