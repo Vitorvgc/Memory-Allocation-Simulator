@@ -84,14 +84,12 @@ public class Controller implements ControlledScreen {
 
         ProcessNode node = new ProcessNode(process, sizeProportion * MEMORY_HEIGHT);
 
-        node.setY(heightProportion * MEMORY_HEIGHT);
+        node.getSprite().setY(heightProportion * MEMORY_HEIGHT);
 
-        node.setFill(Paint.valueOf("#0000CC88"));
+        node.getIdText().setLayoutY((sizeProportion/2 + heightProportion) * MEMORY_HEIGHT - 5);
 
         Platform.runLater(() -> this.processes.add(node));
-
         Platform.runLater(() -> memoryPane.getChildren().add(node));
-
     }
 
     public void desallocateProcess(Process process) {
