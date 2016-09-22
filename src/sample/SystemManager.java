@@ -25,9 +25,6 @@ public class SystemManager {
 
     private int actualProcess;
 
-    private Semaphore allocationMutex;
-    private Semaphore desallocationMutex;
-
     public SystemManager(ArrayList<Process> processes, AllocationType allocationType, int totalMemory, Process so, Controller controller) {
         this.processes = processes;
         this.allocationType = allocationType;
@@ -37,39 +34,34 @@ public class SystemManager {
         this.actualProcess = 0;
         this.controller = controller;
         this.controller.setProcesses(getProcesses());
-
-        this.allocationMutex = new Semaphore(1);
-        this.desallocationMutex = new Semaphore(1);
     }
 
     public void start() {
-
-        try {
-            this.allocateProcess(processes.get(0));
-            TimeCounter counter = new TimeCounter(processes.get(0).getTDurationProperty());
-            counter.start();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        TimerTask allocate = new TimerTask() {
+            @Override
+            public void run() {
+                try {
+                    allocateProcess(processes.get(0));
+                    TimeCounter counter = new TimeCounter(processes.get(0).getTDurationProperty());
+                    counter.start();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        this.timer.schedule(allocate, processes.get(0).getCreationTime() * SECOND_TIME);
     }
 
     private void allocateProcess(Process process) throws InterruptedException {
-
-        //this.allocationMutex.acquire();
         int memoryPosition = this.memory.allocateProcess(process, this.allocationType);
-        //this.allocationMutex.release();
 
         if(memoryPosition != -1) {
 
             double sizeProportion = (double)process.getMemory() / this.memory.getTotalMemory();
             double heightProportion = (double)memoryPosition / this.memory.getTotalMemory();
-            //System.out.println("Processo alocado");
-            //System.out.printf("Tamanho: %f Altura: %f\n", sizeProportion, heightProportion);
 
-            System.out.printf("Processo %d allocado\n", process.getId());
-            //this.allocationMutex.acquire();
+            System.out.printf("Processo %d alocado\n", process.getId());
             this.controller.allocateProcess(process, sizeProportion, heightProportion);
-            //this.allocationMutex.release();
 
             TimerTask desallocate = new TimerTask() {
                 @Override
@@ -110,10 +102,8 @@ public class SystemManager {
 
     private void desallocateProcess(Process process) throws InterruptedException {
 
-        //this.desallocationMutex.acquire();
         this.memory.desallocateProcess(process);
         this.controller.desallocateProcess(process);
-        //this.desallocationMutex.release();
         System.out.printf("Processo %d desalocado\n", process.getId());
         for(Process p : this.processesQueue) {
             this.allocateProcess(p);

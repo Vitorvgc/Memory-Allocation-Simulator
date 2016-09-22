@@ -106,8 +106,10 @@ public class ConfigurationController implements ControlledScreen {
         this.so = new Process(soMemory);
 
         this.processes = new ArrayList<>();
-        for(int i = 0; i < processesNumber; i++)
+        for(int i = 0; i < processesNumber; i++) {
             this.processes.add(new Process(minCreationTime, maxCreationTime, minDuration, maxDuration, minMemory, maxMemory));
+            System.out.println(this.processes.get(i).getId());
+        }
 
         switch (typeBox.getValue().toString()) {
             case "First fit": this.allocationType = AllocationType.FIRST_FIT; break;

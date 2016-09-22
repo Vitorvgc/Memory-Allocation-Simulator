@@ -27,7 +27,7 @@ public class Process {
         this.creationTime = 0;
         this.duration = Integer.MAX_VALUE;
         this.memory = memory;
-        this.id = ++globalId;
+        this.id = 0;
 
         idProperty = new SimpleStringProperty("0");
         tCreationProperty = new SimpleStringProperty("0");
