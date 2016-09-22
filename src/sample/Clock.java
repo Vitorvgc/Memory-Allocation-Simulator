@@ -1,6 +1,7 @@
 package sample;
 
 import Enums.Constants;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import javafx.application.Platform;
 import javafx.scene.control.Label;
 
@@ -11,6 +12,7 @@ public class Clock extends Thread {
 
     private int time;
     private Label timeLabel;
+    public boolean flag = true;
 
     public Clock(Label timeLabel) {
 
@@ -23,11 +25,11 @@ public class Clock extends Thread {
     public void run() {
 
         long times[] = {System.currentTimeMillis(), System.currentTimeMillis()};
-        for(;;) {
+        for (; flag; ) {
             long aux[] = {System.currentTimeMillis(), System.currentTimeMillis()};
-            if(aux[0] - times[0] >= Constants.TIME_SECOND.getValue()) {
+            if (aux[0] - times[0] >= Constants.TIME_SECOND.getValue()) {
                 time++;
-                Platform.runLater(() -> timeLabel.setText(String.format("%d", time)));
+                Platform.runLater(() -> timeLabel.setText(String.format("%d seg", time)));
                 times[0] = aux[0];
             }
         }

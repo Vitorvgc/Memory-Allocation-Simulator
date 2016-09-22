@@ -88,7 +88,7 @@ public class Controller {
         this.averageWaitingTimeProperty = new SimpleStringProperty();
         this.averageWaitingTimeProperty.addListener((observable, oldValue, newValue) -> {
             if(newValue != null) {
-                Platform.runLater(() -> this.averageWaitingTimeLabel.setText(newValue));
+                Platform.runLater(() -> this.averageWaitingTimeLabel.setText(newValue + " s"));
             }
         });
 
