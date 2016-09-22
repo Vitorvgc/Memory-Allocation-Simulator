@@ -64,8 +64,15 @@ public class ConfigurationController implements ControlledScreen {
 
     private void startSimulation() throws IOException {
 
+        try {
+            this.getData();
+        } catch (NumberFormatException e) {
+            System.out.println("Deu ruim em algum campo!");
+            return;
+        }
+
         Stage stage = new Stage();
-        stage.setTitle("Simulation");
+        stage.setTitle("Memory Allocation Simulator");
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Screens/sample.fxml"));
         Parent root = loader.load();
@@ -74,26 +81,6 @@ public class ConfigurationController implements ControlledScreen {
 
         stage.setScene(new Scene(root, 770, 680));
         stage.show();
-
-        /*
-        Process a = new Process(5,5,5,5,25,25);
-        Process b = new Process(2,2,5,5,15,15);
-        Process c = new Process(3,3,5,5,10,10);
-        Process d = new Process(20,20,5,5,40,40);
-
-        ArrayList<Process> processes = new ArrayList<>();
-        processes.add(a);
-        processes.add(b);
-        processes.add(c);
-        processes.add(d);
-        */
-
-        try {
-            this.getData();
-        } catch (NumberFormatException e) {
-            System.out.println("Deu ruim em algum campo!");
-            return;
-        }
 
         Controller controller = loader.getController();
 
