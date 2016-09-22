@@ -27,6 +27,7 @@ public class Controller {
     private static int MEMORY_HEIGHT = 550;
 
     private ArrayList<ProcessNode> processes;
+    private ArrayList<ProcessNode> processQueue;
     private ProcessNode so;
 
     @FXML
@@ -131,6 +132,8 @@ public class Controller {
     }
 
     public void updateQueue(ArrayList<Process> processes) {
+
+        Platform.runLater(() -> this.waitingPane.getChildren().clear());
 
         for(int i = 0; i < processes.size(); i++) {
             Process process = processes.get(i);

@@ -84,7 +84,11 @@ public class SystemManager {
             this.controller.getMemoryUsedProperty().setValue(String.format("%d ( %.1f %% )",
                                       this.memoryUsed, (double) this.memoryUsed/ this.memory.getTotalMemory() * 100.0));
 
-            if(this.processesQueue.contains(process)) this.processesQueue.remove(process);
+            if(this.processesQueue.contains(process)) {
+                this.processesQueue.remove(process);
+
+                this.controller.updateQueue(this.processesQueue);
+            }
 
             double sizeProportion = (double)process.getMemory() / this.memory.getTotalMemory();
             double heightProportion = (double)memoryPosition / this.memory.getTotalMemory();
