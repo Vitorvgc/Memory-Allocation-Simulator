@@ -6,8 +6,9 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="680.0" minWidth="770.0" prefHeight="680.0" prefWidth="770.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Controller">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="680.0" minWidth="770.0" prefHeight="680.0" prefWidth="770.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Controller">
     <children>
         <Pane fx:id="memoryPane" layoutX="522.0" layoutY="90.0" prefHeight="550.0" prefWidth="200.0" style="-fx-border-color: gray;" />
         <ScrollPane layoutX="36.0" layoutY="476.0" prefHeight="164.0" prefWidth="461.0">
@@ -26,5 +27,10 @@
                 <TableColumn fx:id="tWaitColumn" prefWidth="106.0" text="Tempo Espera" />
             </columns>
         </TableView>
+      <Label fx:id="clockLabel" alignment="CENTER" layoutX="331.0" layoutY="17.0" prefHeight="50.0" prefWidth="109.0" textAlignment="CENTER" textFill="#c31414">
+         <font>
+            <Font size="35.0" />
+         </font>
+      </Label>
     </children>
 </AnchorPane>

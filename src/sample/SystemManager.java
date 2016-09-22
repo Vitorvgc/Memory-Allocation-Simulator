@@ -21,6 +21,7 @@ public class SystemManager {
     private ArrayList<Process> processesQueue;
     private Process so;
     private Timer timer;
+    private Clock clock;
 
     private Controller controller;
 
@@ -36,6 +37,8 @@ public class SystemManager {
         this.actualProcess = 0;
         this.controller = controller;
         this.controller.setProcesses(getProcesses());
+        this.clock = new Clock();
+        clock.start();
     }
 
     public void start() {
@@ -119,5 +122,9 @@ public class SystemManager {
 
     public ArrayList<Process> getProcesses() {
         return processes;
+    }
+
+    public Clock getClock() {
+        return clock;
     }
 }

@@ -7,11 +7,13 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Paint;
+import sample.Clock;
 import sample.Process;
 import sample.SystemManager;
 
@@ -36,6 +38,8 @@ public class Controller {
     @FXML
     private AnchorPane wantingPane;
     @FXML
+    private Label clockLabel;
+    @FXML
     private TableColumn<Process, String> idColumn;
     @FXML
     private TableColumn<Process, String> tCreationColumn;
@@ -54,6 +58,8 @@ public class Controller {
 
     private ObservableList<Process> dataTable = FXCollections.observableArrayList();
 
+    public SystemManager system;
+
     public Controller() {
 
         //dataTable = FXCollections.observableArrayList(SystemManager.get)
@@ -71,6 +77,9 @@ public class Controller {
         this.memoryColumn.setCellValueFactory(cellData -> cellData.getValue().getMemoryProperty());
         this.idColumn.setCellValueFactory(cellData -> cellData.getValue().getIDProperty());
 
+//        Clock clock = new Clock(this.clockLabel);
+//        clock.start();
+
         processesTable.setItems(dataTable);
     }
 
@@ -84,6 +93,13 @@ public class Controller {
 
         Platform.runLater(() -> this.processes.add(node));
         Platform.runLater(() -> memoryPane.getChildren().add(node));
+
+        if(system != null) {
+            System.out.print("CADÊ???\n");
+            Platform.runLater(() -> this.clockLabel.setText(String.format("%d", system.getClock().getTime())));
+        } else {
+            System.out.print("Relogio NULO\n");
+        }
     }
 
     public void desallocateProcess(Process process) {
@@ -112,4 +128,7 @@ public class Controller {
         }
     }
 
+    public void setSystem(SystemManager system) {
+        this.system = system;
+    }
 }
