@@ -57,7 +57,6 @@ public class Controller {
     @FXML
     public void initialize() {
 
-        //allocateProcess(new Process(20), 0.5, 0.5);
         this.processes = new ArrayList<>();
 
         this.idColumn.setCellValueFactory(cellData -> cellData.getValue().getIDProperty());
@@ -107,15 +106,20 @@ public class Controller {
 
     public void updateQueue(ArrayList<Process> processes) {
 
-        for(Process process : processes) {
+        for(int i = 0; i < processes.size(); i++) {
+            Process process = processes.get(i);
 
-            ProcessNode node = new ProcessNode(process, 0);
-            node.setLayoutX(50);
-            node.setLayoutY(50);
+            System.out.printf("P%d ", process.getId());
+
+            ProcessNode node = new ProcessNode(process, 10);
+            node.toMiniVisualization();
+            node.setTranslateY(8);
+            node.setTranslateX(10 + i * (10 + node.getSprite().getWidth()));
 
             Platform.runLater(() -> this.waitingPane.getChildren().add(node));
 
         }
+        System.out.println();
     }
 
     public void setProcesses(ArrayList<Process> totalProcesses) {

@@ -50,6 +50,14 @@ public class ProcessNode extends AnchorPane {
         this.idText.setAlignment(Pos.CENTER);
     }
 
+    public void toMiniVisualization() {
+
+        this.sprite.setWidth(35);
+        this.sprite.setHeight(35);
+        this.idText.setLayoutX(9);
+        this.idText.setLayoutY(9);
+    }
+
     public Process getProcess() {
         return this.process;
     }

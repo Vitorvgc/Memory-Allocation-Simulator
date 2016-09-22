@@ -79,7 +79,7 @@ public class ConfigurationController implements ControlledScreen {
 
         previousStage.close();
 
-        stage.setScene(new Scene(root, 770, 680));
+        stage.setScene(new Scene(root, 830, 680));
         stage.show();
 
         Controller controller = loader.getController();

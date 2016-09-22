@@ -103,6 +103,7 @@ public class SystemManager {
         else if(!this.processesQueue.contains(process)){
             this.processesQueue.add(process);
             System.out.println("Processo nao pode ser alocado e entrou na fila");
+            this.controller.updateQueue(this.processesQueue);
         }
 
         // schedule allocation of next process, if there is any
