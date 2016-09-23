@@ -35,7 +35,7 @@
                 <TableColumn fx:id="tWaitColumn" prefWidth="98.0" text="Espera" />
             </columns>
         </TableView>
-      <Label fx:id="clockLabel" alignment="CENTER" layoutX="385.0" layoutY="17.0" prefHeight="50.0" prefWidth="109.0" textAlignment="CENTER" textFill="#c31414">
+      <Label fx:id="clockLabel" alignment="CENTER" layoutX="385.0" layoutY="17.0" prefHeight="50.0" prefWidth="120.0" textAlignment="CENTER" textFill="#c31414">
          <font>
             <Font size="35.0" />
          </font>

@@ -67,8 +67,6 @@ public class Memory {
             if(actual.free && actual.size >= process.getMemory()) {
                 this.memory.get(i).size -= process.getMemory();
                 this.memory.add(i, new Node(process));
-                if(i < lastPosition) lastPosition++;
-                //System.out.printf("Processo alocado na pos: %d\n", pos);
                 return pos;
             }
             pos += this.memory.get(i).size;
@@ -90,7 +88,6 @@ public class Memory {
         if(minPosition != -1) {
             this.memory.get(minPosition).size -= process.getMemory();
             this.memory.add(minPosition, new Node(process));
-            if(minPosition < lastPosition) lastPosition++;
             System.out.println(minPos);
             this.printMemory();
             return minPos;
@@ -100,19 +97,19 @@ public class Memory {
 
     private int allocateProcessWithWorstFit(Process process) {
 
-        int maxPosition = -1, maxSize = -1;
-        for(int i = 0; i < this.memory.size(); i++) {
+        int maxPosition = -1, maxSize = -1, maxPos = -1;
+        for(int i = 0, pos = 0; i < this.memory.size(); pos += this.memory.get(i).size, i++) {
             Node actual = this.memory.get(i);
             if (actual.free && actual.size > maxSize) {
                 maxPosition = i;
-                maxSize = this.memory.get(i).size;
+                maxSize = actual.size;
+                maxPos = pos;
             }
         }
         if(maxPosition != -1 && maxSize >= process.getMemory()) {
             this.memory.get(maxPosition).size -= process.getMemory();
             this.memory.add(maxPosition, new Node(process));
-            if(maxPosition < lastPosition) lastPosition++;
-            return -1;
+            return maxPos;
         }
         return -1;
     }
