@@ -19,7 +19,7 @@ import java.util.ArrayList;
 /**
  * Created by edvaldojunior on 20/09/16.
  */
-public class ConfigurationController implements ControlledScreen {
+public class ConfigurationController {
 
     @FXML
     private ChoiceBox typeBox;
@@ -44,7 +44,6 @@ public class ConfigurationController implements ControlledScreen {
     @FXML
     private Button startButton;
 
-    private ScreensController myController;
     private Stage previousStage;
 
     private ArrayList<Process> processes;
@@ -72,7 +71,7 @@ public class ConfigurationController implements ControlledScreen {
         }
 
         Stage stage = new Stage();
-        stage.setTitle("Memory Allocation Simulator");
+        stage.setTitle("Simulador de alocação de memória");
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Screens/sample.fxml"));
         Parent root = loader.load();
@@ -119,11 +118,6 @@ public class ConfigurationController implements ControlledScreen {
 
     public void setPreviousStage(Stage previousStage) {
         this.previousStage = previousStage;
-    }
-
-    @Override
-    public void setScreenParent(ScreensController screenParent) {
-        myController = screenParent;
     }
 
 }

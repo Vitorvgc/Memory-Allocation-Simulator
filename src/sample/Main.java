@@ -9,11 +9,6 @@ import javafx.scene.Scene;
 
 public class Main extends Application {
 
-    public static String screen1Id = "Main";
-    public static String screen1File = "sample.fxml";
-    public static String screen2Id = "screen2";
-    public static String screen2File = "ConfigurationScreen.fxml";
-
     @Override
     public void start(Stage primaryStage) throws Exception{
 
@@ -24,8 +19,8 @@ public class Main extends Application {
         ConfigurationController controller = loader.getController();
         controller.setPreviousStage(primaryStage);
 
-        primaryStage.setTitle("Configuration");
-        primaryStage.setScene(new Scene(root, 770, 680));
+        primaryStage.setTitle("Configuração");
+        primaryStage.setScene(new Scene(root, 530, 600));
         primaryStage.show();
 
     }
