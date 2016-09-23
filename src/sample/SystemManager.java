@@ -3,6 +3,7 @@ package sample;
 import Controllers.Controller;
 import Enums.AllocationType;
 import Enums.Constants;
+import javafx.scene.control.TableRow;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
@@ -75,6 +76,22 @@ public class SystemManager {
         // schedule desallocation of process
         if(memoryPosition != -1) {
 
+//            this.controller.getProcessesTable().setRowFactory(tv -> new TableRow<Process>() {
+//                @Override
+//                public void updateItem(Process item, boolean empty) {
+//
+//                    System.out.print("BBBBBB\n");
+//                    super.updateItem(item, empty) ;
+//                    if (item == null) {
+//                        setStyle("");
+//                    } else if (item.getId() == process.getId()) {
+//                        System.out.print("AAAAAA\n");
+//                        setStyle("-fx-background-color: tomato;");
+//                    } else {
+//                        setStyle("");
+//                    }
+//                }
+//            });
 
             process.getTAllocationProperty().setValue(String.format("%d", clock.getTime()));
 
