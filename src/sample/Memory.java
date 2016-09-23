@@ -54,7 +54,7 @@ public class Memory {
                 if(i < this.memory.size() - 1 && this.memory.get(i+1).free) {
                     this.memory.get(i).size += this.memory.get(i+1).size;
                     this.memory.remove(i+1);
-                    if(lastPosition > i+1) lastPosition--;
+                    if(lastPosition > i + 1) lastPosition--;
                 }
                 //this.printMemory(); // test
                 return;
@@ -119,16 +119,46 @@ public class Memory {
     //TODO: Check functionality of the next-fit method
     private int allocateProcessWithNextFit(Process process) {
 
-        for(int i = lastPosition; i != lastPosition - 1; lastPos += this.memory.get(i).size, i = (i+1) % this.memory.size()) {
+        int pos = 0, ind = 0;
+        for(int i = 0; i < lastPosition; i++) {
+            pos += memory.get(i).size;
+            ind = i;
+        }
+        System.out.printf("pos: %d\n", pos);
+
+        // doing
+        if(lastPos - pos >= process.getMemory()) {
+            memory.add(ind, new Node(process));
+            return lastPos;
+        }
+
+        for(int i = lastPosition; i < memory.size(); i++) {
             Node actual = this.memory.get(i);
             if(actual.free && actual.size >= process.getMemory()) {
                 this.memory.get(i).size -= process.getMemory();
                 this.memory.add(i, new Node(process));
                 lastPosition = i;
                 //if(i < lastPosition) lastPosition++;
-                return lastPos;
+                lastPos = pos;
+                this.printMemory();
+                return pos;
             }
-            if(i == this.memory.size() - 1) this.lastPos = 0;
+            pos += memory.get(i).size;
+            //if(i == this.memory.size() - 1) this.lastPos = 0;
+        }
+        pos = 0;
+        for(int i = 0; i < lastPosition; i++) {
+            Node actual = this.memory.get(i);
+            if(actual.free && actual.size >= process.getMemory()) {
+                this.memory.get(i).size -= process.getMemory();
+                this.memory.add(i, new Node(process));
+                lastPosition = i;
+                //if(i < lastPosition) lastPosition++;
+                lastPos = pos;
+                this.printMemory();
+                return pos;
+            }
+            pos += memory.get(i).size;
         }
         return -1;
     }
