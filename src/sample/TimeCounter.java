@@ -20,13 +20,12 @@ public class TimeCounter extends Thread {
 
     @Override
     public void run() {
-        int counter = Integer.parseInt(timeProperty.get());
-        long times[] = {System.currentTimeMillis(), System.currentTimeMillis()};
-        for(int i = 0; counter > 0;) {
-            long aux[] = {System.currentTimeMillis(), System.currentTimeMillis()};
-            if(aux[0] - times[0] >= Constants.TIME_SECOND.getValue()) {
+        for(int counter = Integer.parseInt(timeProperty.get()); counter > 0;) {
+            try {
+                sleep(Constants.TIME_SECOND.getValue());
                 timeProperty.setValue(String.valueOf(--counter));
-                times[0] = aux[0];
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
         }
     }
