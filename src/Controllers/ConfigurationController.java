@@ -8,6 +8,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import sample.SystemManager;
@@ -43,6 +44,8 @@ public class ConfigurationController {
     private TextField td2Text;
     @FXML
     private Button startButton;
+    @FXML
+    private Label message;
 
     private Stage previousStage;
 
@@ -67,6 +70,7 @@ public class ConfigurationController {
             this.getData();
         } catch (NumberFormatException e) {
             System.out.println("ERROR: Algum campo invalido");
+            message.setText("Algum campo invalido (preencha tudo com dígitos)");
             return;
         }
 
