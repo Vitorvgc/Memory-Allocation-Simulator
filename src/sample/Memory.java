@@ -91,7 +91,9 @@ public class Memory {
             this.memory.get(minPosition).size -= process.getMemory();
             this.memory.add(minPosition, new Node(process));
             if(minPosition < lastPosition) lastPosition++;
-            return pos;
+            System.out.println(minPos);
+            this.printMemory();
+            return minPos;
         }
         return -1;
     }
