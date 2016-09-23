@@ -13,7 +13,7 @@ public class Memory {
     private Process so;
     private ArrayList<Node> memory;
 
-    private int lastPosition; // used in next-fit allocation method
+    private int lastPosition = 0, lastPos = 0; // used in next-fit allocation method
 
     public Memory(int totalMemory, Process so) {
         this.totalMemory = totalMemory;
@@ -49,10 +49,12 @@ public class Memory {
                 if(i > 0 && this.memory.get(i-1).free) {
                     this.memory.get(i).size += this.memory.get(i-1).size;
                     this.memory.remove(--i);
+                    if(lastPosition > i) lastPosition--;
                 }
                 if(i < this.memory.size() - 1 && this.memory.get(i+1).free) {
                     this.memory.get(i).size += this.memory.get(i+1).size;
                     this.memory.remove(i+1);
+                    if(lastPosition > i+1) lastPosition--;
                 }
                 //this.printMemory(); // test
                 return;
@@ -117,14 +119,16 @@ public class Memory {
     //TODO: Check functionality of the next-fit method
     private int allocateProcessWithNextFit(Process process) {
 
-        for(int i = lastPosition + 1; i != lastPosition; i = (i+1) % this.memory.size()) {
+        for(int i = lastPosition; i != lastPosition - 1; lastPos += this.memory.get(i).size, i = (i+1) % this.memory.size()) {
             Node actual = this.memory.get(i);
             if(actual.free && actual.size >= process.getMemory()) {
                 this.memory.get(i).size -= process.getMemory();
                 this.memory.add(i, new Node(process));
-                if(i < lastPosition) lastPosition++;
-                return -1;
+                lastPosition = i;
+                //if(i < lastPosition) lastPosition++;
+                return lastPos;
             }
+            if(i == this.memory.size() - 1) this.lastPos = 0;
         }
         return -1;
     }
