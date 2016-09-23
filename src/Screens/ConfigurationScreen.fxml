@@ -10,68 +10,66 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="530.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.ConfigurationController">
    <children>
-      <TextField fx:id="nProcessText" alignment="CENTER" layoutX="307.0" layoutY="38.0" prefHeight="27.0" prefWidth="176.0" promptText="Número de processos">
+      <TextField fx:id="nProcessText" alignment="CENTER" layoutX="307.0" layoutY="64.0" prefHeight="27.0" prefWidth="176.0" promptText="Número de processos">
          <tooltip>
             <Tooltip text="Quantidade de processos que serão criados" />
          </tooltip></TextField>
-      <ChoiceBox fx:id="typeBox" layoutX="307.0" layoutY="91.0" prefHeight="27.0" prefWidth="176.0">
+      <ChoiceBox fx:id="typeBox" layoutX="307.0" layoutY="117.0" prefHeight="27.0" prefWidth="176.0">
          <tooltip>
             <Tooltip text="Estratégia de alocação utilizada" />
          </tooltip>
          <cursor>
             <Cursor fx:constant="CROSSHAIR" />
          </cursor></ChoiceBox>
-      <TextField fx:id="sizeMemoryText" alignment="CENTER" layoutX="307.0" layoutY="147.0" prefHeight="27.0" prefWidth="176.0" promptText="Tamanho da memória real">
+      <TextField fx:id="sizeMemoryText" alignment="CENTER" layoutX="307.0" layoutY="173.0" prefHeight="27.0" prefWidth="176.0" promptText="Tamanho da memória real">
          <tooltip>
             <Tooltip text="Tamanho da memória real (MB)" />
          </tooltip></TextField>
-      <TextField fx:id="sizeSOText" alignment="CENTER" layoutX="307.0" layoutY="197.0" prefHeight="27.0" prefWidth="176.0" promptText="Tamanho do S.O.">
+      <TextField fx:id="sizeSOText" alignment="CENTER" layoutX="307.0" layoutY="223.0" prefHeight="27.0" prefWidth="176.0" promptText="Tamanho do S.O.">
          <tooltip>
             <Tooltip text="Tamanho da área de memória ocupada pelo sistema operacional (MB)" />
          </tooltip></TextField>
-      <TextField fx:id="m1Text" alignment="CENTER" layoutX="307.0" layoutY="243.0" prefWidth="176.0" promptText="M1">
+      <TextField fx:id="m1Text" alignment="CENTER" layoutX="307.0" layoutY="278.0" prefHeight="30.0" prefWidth="80.0" promptText="Mínimo">
          <tooltip>
             <Tooltip text="Limite inferior do intervalo para gerar aleatoriamente a área ocupada por cada processo na memória(MB)" />
          </tooltip></TextField>
-      <TextField fx:id="m2Text" alignment="CENTER" layoutX="307.0" layoutY="293.0" prefWidth="176.0" promptText="M2">
+      <TextField fx:id="m2Text" alignment="CENTER" layoutX="405.0" layoutY="278.0" prefHeight="30.0" prefWidth="80.0" promptText="Máximo">
          <tooltip>
             <Tooltip text="Limite superior do intervalo para gerar aleatoriamente a área ocupada por cada processo na memória(MB)" />
          </tooltip>
       </TextField>
-      <TextField fx:id="tc1Text" alignment="CENTER" layoutX="307.0" layoutY="345.0" prefWidth="176.0" promptText="Tc1">
+      <TextField fx:id="tc1Text" alignment="CENTER" layoutX="307.0" layoutY="337.0" prefHeight="27.0" prefWidth="80.0" promptText="Mínimo">
          <tooltip>
             <Tooltip text="limite inferior do intervalo para gerar aleatoriamente o tempo de criação de cada processo em relação ao processo criado anteriormente(segundos)" />
          </tooltip>
       </TextField>
-      <TextField fx:id="tc2Text" alignment="CENTER" layoutX="307.0" layoutY="393.0" prefWidth="176.0" promptText="Tc2">
+      <TextField fx:id="tc2Text" alignment="CENTER" layoutX="405.0" layoutY="337.0" prefHeight="27.0" prefWidth="80.0" promptText="Máximo">
          <tooltip>
             <Tooltip text="limite superior do intervalo para gerar aleatoriamente o tempo de criação de cada processo em relação ao processo criado anteriormente(segundos)" />
          </tooltip>
       </TextField>
-      <TextField fx:id="td1Text" alignment="CENTER" layoutX="307.0" layoutY="442.0" prefWidth="176.0" promptText="Td1">
+      <TextField fx:id="td1Text" alignment="CENTER" layoutX="307.0" layoutY="392.0" prefHeight="27.0" prefWidth="80.0" promptText="Mínimo">
          <tooltip>
             <Tooltip text="limite inferior do intervalo para gerar aleatoriamente a duração de cada processo(segundos)" />
          </tooltip>
       </TextField>
-      <TextField fx:id="td2Text" alignment="CENTER" layoutX="307.0" layoutY="490.0" prefWidth="176.0" promptText="Td2">
+      <TextField fx:id="td2Text" alignment="CENTER" layoutX="405.0" layoutY="392.0" prefHeight="27.0" prefWidth="80.0" promptText="Máximo">
          <tooltip>
             <Tooltip text="limite superior do intervalo para gerar aleatoriamente a duração de cada processo(segundos)" />
          </tooltip>
       </TextField>
-      <Button fx:id="startButton" layoutX="225.0" layoutY="538.0" mnemonicParsing="false" onAction="#startSimulation" text="Começar!">
+      <Button fx:id="startButton" alignment="CENTER" layoutX="226.0" layoutY="475.0" mnemonicParsing="false" onAction="#startSimulation" text="Começar!" textAlignment="CENTER">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
-      <Label layoutX="66.0" layoutY="42.0" text="Número de processos" />
-      <Label layoutX="66.0" layoutY="151.0" text="Tamanho da memória real" />
-      <Label layoutX="66.0" layoutY="201.0" text="Tamanho do S.O." />
-      <Label layoutX="66.0" layoutY="247.0" text="Valor M1" />
-      <Label layoutX="66.0" layoutY="297.0" text="Valor M2" />
-      <Label layoutX="66.0" layoutY="349.0" text="Valor Tc1" />
-      <Label layoutX="66.0" layoutY="397.0" text="Valor Tc2" />
-      <Label layoutX="66.0" layoutY="446.0" text="Valor Td1" />
-      <Label layoutX="66.0" layoutY="494.0" text="Valor Td2" />
-      <Label layoutX="66.0" layoutY="95.0" text="Estratégia de alocação" />
+      <Label layoutX="66.0" layoutY="68.0" text="Número de processos" />
+      <Label layoutX="66.0" layoutY="177.0" text="Tamanho da memória real" />
+      <Label layoutX="66.0" layoutY="227.0" text="Tamanho do S.O." />
+      <Label layoutX="67.0" layoutY="283.0" text="Memória ocupada pelos processos " />
+      <Label layoutX="66.0" layoutY="342.0" text="Intervalo de tempo de criação" />
+      <Label layoutX="62.0" layoutY="397.0" text="Intervalo de duração dos processos" />
+      <Label layoutX="66.0" layoutY="121.0" text="Estratégia de alocação" />
+      <Label fx:id="message" alignment="CENTER" layoutX="90.0" layoutY="544.0" prefHeight="20.0" prefWidth="350.0" textAlignment="CENTER" />
 
    </children>
 </AnchorPane>
