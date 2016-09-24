@@ -77,6 +77,12 @@ public class Controller {
         this.tEndColumn.setCellValueFactory(cellData -> cellData.getValue().getTEndProperty());
         this.tWaitColumn.setCellValueFactory(cellData -> cellData.getValue().getTWaitProperty());
 
+        for(TableColumn col : getProcessesTable().getColumns()) {
+            col.setStyle("-fx-alignment: CENTER;");
+        }
+        this.tCreationColumn.setStyle("-fx-alignment: CENTER;");
+        this.tRealCreationColumn.setStyle("-fx-alignment: CENTER;");
+
         this.memoryUsedProperty = new SimpleStringProperty();
         this.memoryUsedProperty.addListener((observable, oldValue, newValue) -> {
             if(newValue != null) {
@@ -162,4 +168,8 @@ public class Controller {
     public StringProperty getMemoryUsedProperty() { return memoryUsedProperty; }
 
     public StringProperty getAverageWaitingTimeProperty() { return averageWaitingTimeProperty; }
+
+    public TableView<Process> getProcessesTable() {
+        return processesTable;
+    }
 }
