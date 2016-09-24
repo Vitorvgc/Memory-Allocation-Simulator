@@ -118,47 +118,69 @@ public class Memory {
 
     //TODO: Check functionality of the next-fit method
     private int allocateProcessWithNextFit(Process process) {
-
-        int pos = 0, ind = 0;
-        for(int i = 0; i < lastPosition; i++) {
-            pos += memory.get(i).size;
-            ind = i;
-        }
-        System.out.printf("pos: %d\n", pos);
-
-        // doing
-        if(lastPos - pos >= process.getMemory()) {
-            memory.add(ind, new Node(process));
-            return lastPos;
-        }
-
-        for(int i = lastPosition; i < memory.size(); i++) {
-            Node actual = this.memory.get(i);
-            if(actual.free && actual.size >= process.getMemory()) {
-                this.memory.get(i).size -= process.getMemory();
-                this.memory.add(i, new Node(process));
-                lastPosition = i;
-                //if(i < lastPosition) lastPosition++;
-                lastPos = pos;
-                this.printMemory();
-                return pos;
+        try {
+            int pos = 0, ind = 0;
+            for (int i = 0; pos < lastPos; i++) {
+                pos += memory.get(i).size;
+                ind = i;
             }
-            pos += memory.get(i).size;
-            //if(i == this.memory.size() - 1) this.lastPos = 0;
-        }
-        pos = 0;
-        for(int i = 0; i < lastPosition; i++) {
-            Node actual = this.memory.get(i);
-            if(actual.free && actual.size >= process.getMemory()) {
-                this.memory.get(i).size -= process.getMemory();
-                this.memory.add(i, new Node(process));
-                lastPosition = i;
-                //if(i < lastPosition) lastPosition++;
-                lastPos = pos;
-                this.printMemory();
-                return pos;
+            System.out.printf("pos: %d\n", pos);
+
+            int pos2 = 0, anterior = 0;
+            for (int i = 0; pos2 + memory.get(i).size < lastPos; i++) {
+                pos2 += memory.get(i).size;
+                anterior++;
             }
-            pos += memory.get(i).size;
+
+            int gap1 = pos - lastPos;
+            int gap2 = lastPos - pos2;
+
+
+            System.out.printf("Tentando alocar no espaço entre %d e %d\n", pos, this.memory.get(ind).size);
+
+            int index = ind - 1;
+            if (index < 0) index = 0;
+
+            // doing
+            if (gap1 >= process.getMemory()) {
+                memory.get(index).size -= gap2 + process.getMemory();
+                memory.add(index, new Node(process));
+                memory.add(index, new Node(gap2));
+                lastPosition++;
+                return lastPos;
+            }
+
+            for (int i = lastPosition; i < memory.size(); i++) {
+                Node actual = this.memory.get(i);
+                if (actual.free && actual.size >= process.getMemory()) {
+                    this.memory.get(i).size -= process.getMemory();
+                    this.memory.add(i, new Node(process));
+                    lastPosition = i;
+                    //if(i < lastPosition) lastPosition++;
+                    lastPos = pos;
+                    this.printMemory();
+                    return pos;
+                }
+                pos += memory.get(i).size;
+                //if(i == this.memory.size() - 1) this.lastPos = 0;
+            }
+            pos = 0;
+            for (int i = 0; i < lastPosition; i++) {
+                Node actual = this.memory.get(i);
+                if (actual.free && actual.size >= process.getMemory()) {
+                    this.memory.get(i).size -= process.getMemory();
+                    this.memory.add(i, new Node(process));
+                    lastPosition = i;
+                    //if(i < lastPosition) lastPosition++;
+                    lastPos = pos;
+                    this.printMemory();
+                    return pos;
+                }
+                pos += memory.get(i).size;
+            }
+            return -1;
+        } catch(IndexOutOfBoundsException e) {
+            System.out.println("Fora do intervalo");
         }
         return -1;
     }

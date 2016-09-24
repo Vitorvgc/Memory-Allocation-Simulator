@@ -12,7 +12,7 @@ import sample.Process;
  */
 public class ProcessNode extends AnchorPane {
 
-    private static String colors[] = {"#0000CC88", "#CC000088", "#00CC0088"};
+    private static String colors[] = {"#0000FFCC", "#FF0000CC", "#00FF00CC", "0xFFFF00CC", "0xFF00FFCC", "0x00FFFFCC"};
 
     private Process process;
 
@@ -33,8 +33,8 @@ public class ProcessNode extends AnchorPane {
         this.sprite = new Rectangle();
         this.sprite.setWidth(200);
         this.sprite.setHeight(height);
-        this.sprite.setFill(Paint.valueOf(this.process.getId() == 0 ? "0x000000" : colors[(this.process.getId() - 1) % colors.length]));
-        this.sprite.setStroke(Paint.valueOf("#666666"));
+        this.sprite.setFill(Paint.valueOf(this.process.getId() == 0 ? "0x666666" : colors[(this.process.getId() - 1) % colors.length]));
+        this.sprite.setStroke(Paint.valueOf("#00000088"));
         this.sprite.setStrokeWidth(2);
     }
 
@@ -44,6 +44,7 @@ public class ProcessNode extends AnchorPane {
             this.idText.setText("SO");
             this.idText.setTextFill(Paint.valueOf("0xFFFFFF"));
         }
+        this.idText.setStyle("-fx-font-weight: bold;");
         this.idText.setLayoutX(95);
         this.idText.setAlignment(Pos.CENTER);
     }

@@ -93,7 +93,6 @@ public class SystemManager {
             double sizeProportion = (double)process.getMemory() / this.memory.getTotalMemory();
             double heightProportion = (double)memoryPosition / this.memory.getTotalMemory();
 
-            System.out.printf("Processo %d alocado\n", process.getId());
             this.controller.allocateProcess(process, sizeProportion, heightProportion);
 
             if(process.getId() != 0) {
@@ -116,7 +115,6 @@ public class SystemManager {
         }
         else if(!this.processesQueue.contains(process)){
             this.processesQueue.add(process);
-            System.out.println("Processo nao pode ser alocado e entrou na fila");
             this.controller.updateQueue(this.processesQueue);
         }
 
@@ -147,7 +145,7 @@ public class SystemManager {
 
         this.totalWaitTime += clock.getTime() - process.getRealCreationTime();
 
-        this.controller.getAverageWaitingTimeProperty().setValue(String.format("%d", this.totalWaitTime / this.finishedProcesses));
+        this.controller.getAverageWaitingTimeProperty().setValue(String.format("%.1f", (double)this.totalWaitTime / this.finishedProcesses));
 
 
         this.memory.desallocateProcess(process);
@@ -156,11 +154,7 @@ public class SystemManager {
         this.controller.getMemoryUsedProperty().setValue(String.format("%d ( %.1f %% )",
                                       this.memoryUsed, (double) this.memoryUsed/ this.memory.getTotalMemory() * 100.0));
 
-        System.out.printf("Processo %d desalocado\n", process.getId());
-
         if(this.finishedProcesses == this.processes.size()) {
-            // stop clock
-            System.out.println("--- Fim ---");
             getClock().flag = false;
             this.clock = null;
 
