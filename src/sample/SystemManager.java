@@ -48,7 +48,7 @@ public class SystemManager {
         this.memoryUsed = 0;
         this.maxMemoryUsed = this.memoryUsed;
         this.clock = new Clock(this.controller.getClockLabel());
-        clock.start();
+        this.clock.start();
     }
 
     public void start() {
@@ -68,6 +68,7 @@ public class SystemManager {
             }
         };
         this.timer.schedule(allocate, processes.get(0).getCreationTime() * Constants.TIME_SECOND.getValue());
+
     }
 
     private void allocateProcess(Process process) throws InterruptedException {

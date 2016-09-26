@@ -26,14 +26,12 @@ public class Clock extends Thread {
     @Override
     public void run() {
 
-        long times[] = {System.currentTimeMillis(), System.currentTimeMillis()};
         while(flag) {
-            long aux[] = {System.currentTimeMillis(), System.currentTimeMillis()};
-            if (aux[0] - times[0] >= Constants.TIME_SECOND.getValue()) {
+            try {
+                sleep(Constants.TIME_SECOND.getValue());
                 time++;
                 Platform.runLater(() -> timeLabel.setText(String.format("%d seg", time)));
-                times[0] = aux[0];
-            }
+            } catch (InterruptedException ignored) {}
         }
     }
 
