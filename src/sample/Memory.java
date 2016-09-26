@@ -6,6 +6,10 @@ import java.util.ArrayList;
 
 /**
  * Created by Vítor on 17/09/2016.
+ *
+ * Class that represents the system memory, containing
+ * methods to allocate and desallocate processes with
+ * four different strategies.
  */
 public class Memory {
 
@@ -13,7 +17,7 @@ public class Memory {
     private Process so;
     private ArrayList<Node> memory;
 
-    private int lastPosition = 0, lastPos = 0; // used in next-fit allocation method
+    private int lastPos = 0; // used in next-fit allocation method
 
     public Memory(int totalMemory, Process so) {
         this.totalMemory = totalMemory;
@@ -21,13 +25,6 @@ public class Memory {
         this.memory = new ArrayList<>();
         this.memory.add(new Node(this.totalMemory - this.so.getMemory()));
         this.memory.add(new Node(this.so));
-    }
-
-    // for test purporses
-    public void printMemory() {
-        for(Node n : this.memory)
-            System.out.printf("|%b - %d| ", n.free, n.size);
-        System.out.println();
     }
 
     public int allocateProcess(Process process, AllocationType type) {
@@ -40,7 +37,6 @@ public class Memory {
         return -1;
     }
 
-    //TODO: Update lastPosition after removing nodes
     public void desallocateProcess(Process process) {
         for(int i = 0; i < this.memory.size(); i++) {
             Node node = this.memory.get(i);
@@ -49,14 +45,16 @@ public class Memory {
                 if(i > 0 && this.memory.get(i-1).free) {
                     this.memory.get(i).size += this.memory.get(i-1).size;
                     this.memory.remove(--i);
-                    if(lastPosition > i) lastPosition--;
                 }
                 if(i < this.memory.size() - 1 && this.memory.get(i+1).free) {
                     this.memory.get(i).size += this.memory.get(i+1).size;
                     this.memory.remove(i+1);
-                    if(lastPosition > i + 1) lastPosition--;
                 }
-                //this.printMemory(); // test
+
+                System.out.println("\n------------------------------------------------------");
+                System.out.printf("Process %d desallocation\n", process.getId());
+                //this.printMemory();
+
                 return;
             }
         }
@@ -68,6 +66,7 @@ public class Memory {
             Node actual = this.memory.get(i);
             if(actual.free && actual.size >= process.getMemory()) {
                 this.memory.get(i).size -= process.getMemory();
+                if(this.memory.get(i).size == 0) this.memory.remove(i--);
                 this.memory.add(i, new Node(process));
                 return pos;
             }
@@ -91,7 +90,6 @@ public class Memory {
             this.memory.get(minPosition).size -= process.getMemory();
             this.memory.add(minPosition, new Node(process));
             System.out.println(minPos);
-            this.printMemory();
             return minPos;
         }
         return -1;
@@ -115,72 +113,53 @@ public class Memory {
         }
         return -1;
     }
-
-    //TODO: Check functionality of the next-fit method
+/*
+    private void printMemory() {
+        for(Node node : this.memory) {
+            System.out.printf("[%s - %d] ",(node.free ? "free" : "ocpd"), node.size);
+        }
+        System.out.println();
+    }
+*/
     private int allocateProcessWithNextFit(Process process) {
-        try {
-            int pos = 0, ind = 0;
-            for (int i = 0; pos < lastPos; i++) {
-                pos += memory.get(i).size;
-                ind = i;
+        int pos = 0, ind = 0;
+        /*
+        System.out.println("\n------------------------------------------------------");
+        System.out.printf("Process %d allocation\n", process.getId());
+        this.printMemory();
+        System.out.printf("Lastpos: %d ", lastPos);
+        */
+        // move to first node after the last position
+        for (int i = 0; pos < lastPos; i++) {
+            pos += memory.get(i).size;
+            ind = i+1;
+        }
+
+        // try to allocate in the first gap after the last position
+        for(int i = ind; i < memory.size(); i++) {
+            Node actual = this.memory.get(i);
+            if(actual.free && actual.size >= process.getMemory()) {
+                this.memory.get(i).size -= process.getMemory();
+                if(this.memory.get(i).size == 0) this.memory.remove(i--);
+                this.memory.add(i, new Node(process));
+                lastPos = pos;
+                return pos;
             }
-            System.out.printf("pos: %d\n", pos);
+            pos += actual.size;
+        }
 
-            int pos2 = 0, anterior = 0;
-            for (int i = 0; pos2 + memory.get(i).size < lastPos; i++) {
-                pos2 += memory.get(i).size;
-                anterior++;
+        // try to allocate in the first gap before the last position
+        pos = 0;
+        for(int i = 0; i < ind; i++) {
+            Node actual = this.memory.get(i);
+            if(actual.free && actual.size >= process.getMemory()) {
+                this.memory.get(i).size -= process.getMemory();
+                if(this.memory.get(i).size == 0) this.memory.remove(i--);
+                this.memory.add(i, new Node(process));
+                lastPos = pos;
+                return pos;
             }
-
-            int gap1 = pos - lastPos;
-            int gap2 = lastPos - pos2;
-
-
-            System.out.printf("Tentando alocar no espaço entre %d e %d\n", pos, this.memory.get(ind).size);
-
-            int index = ind - 1;
-            if (index < 0) index = 0;
-
-            // doing
-            if (gap1 >= process.getMemory()) {
-                memory.get(index).size -= gap2 + process.getMemory();
-                memory.add(index, new Node(process));
-                memory.add(index, new Node(gap2));
-                lastPosition++;
-                return lastPos;
-            }
-
-            for (int i = lastPosition; i < memory.size(); i++) {
-                Node actual = this.memory.get(i);
-                if (actual.free && actual.size >= process.getMemory()) {
-                    this.memory.get(i).size -= process.getMemory();
-                    this.memory.add(i, new Node(process));
-                    lastPosition = i;
-                    //if(i < lastPosition) lastPosition++;
-                    lastPos = pos;
-                    this.printMemory();
-                    return pos;
-                }
-                pos += memory.get(i).size;
-                //if(i == this.memory.size() - 1) this.lastPos = 0;
-            }
-            pos = 0;
-            for (int i = 0; i < lastPosition; i++) {
-                Node actual = this.memory.get(i);
-                if (actual.free && actual.size >= process.getMemory()) {
-                    this.memory.get(i).size -= process.getMemory();
-                    this.memory.add(i, new Node(process));
-                    lastPosition = i;
-                    //if(i < lastPosition) lastPosition++;
-                    lastPos = pos;
-                    this.printMemory();
-                    return pos;
-                }
-                pos += memory.get(i).size;
-            }
-            return -1;
-        } catch(IndexOutOfBoundsException e) {
-            System.out.println("Fora do intervalo");
+            pos += actual.size;
         }
         return -1;
     }
@@ -209,6 +188,7 @@ public class Memory {
             this.process = null;
         }
 
+        // Removes the process from a node, becoming a gap
         private void free() {
             this.free = true;
             this.size = this.process.getMemory();
