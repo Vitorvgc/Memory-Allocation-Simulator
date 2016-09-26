@@ -17,8 +17,6 @@ public class Clock extends Thread {
     public boolean flag = true;
 
     public Clock(Label timeLabel) {
-
-        System.out.print("Criou Clock\n");
         this.time = 0;
         this.timeLabel = timeLabel;
     }

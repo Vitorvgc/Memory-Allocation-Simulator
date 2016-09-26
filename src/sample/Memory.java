@@ -50,11 +50,6 @@ public class Memory {
                     this.memory.get(i).size += this.memory.get(i+1).size;
                     this.memory.remove(i+1);
                 }
-
-                System.out.println("\n------------------------------------------------------");
-                System.out.printf("Process %d desallocation\n", process.getId());
-                //this.printMemory();
-
                 return;
             }
         }
@@ -89,7 +84,6 @@ public class Memory {
         if(minPosition != -1) {
             this.memory.get(minPosition).size -= process.getMemory();
             this.memory.add(minPosition, new Node(process));
-            System.out.println(minPos);
             return minPos;
         }
         return -1;
@@ -113,22 +107,10 @@ public class Memory {
         }
         return -1;
     }
-/*
-    private void printMemory() {
-        for(Node node : this.memory) {
-            System.out.printf("[%s - %d] ",(node.free ? "free" : "ocpd"), node.size);
-        }
-        System.out.println();
-    }
-*/
+
     private int allocateProcessWithNextFit(Process process) {
         int pos = 0, ind = 0;
-        /*
-        System.out.println("\n------------------------------------------------------");
-        System.out.printf("Process %d allocation\n", process.getId());
-        this.printMemory();
-        System.out.printf("Lastpos: %d ", lastPos);
-        */
+
         // move to first node after the last position
         for (int i = 0; pos < lastPos; i++) {
             pos += memory.get(i).size;

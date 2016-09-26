@@ -184,7 +184,7 @@ public class SystemManager {
         this.clock = null;
 
         System.out.println("--- End of simulation ---");
-        System.out.printf("Maximum of memory used: %d (%.1f%%)\n", maxMemoryUsed, (double)maxMemoryUsed / memory.getTotalMemory());
+        System.out.printf("Maximum of memory used: %d (%.1f%%)\n", maxMemoryUsed, 100 * (double)maxMemoryUsed / memory.getTotalMemory());
     }
 
 }
