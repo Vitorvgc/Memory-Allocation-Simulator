@@ -3,13 +3,16 @@ package sample;
 import Controllers.Controller;
 import Enums.AllocationType;
 import Enums.Constants;
-import javafx.scene.control.TableRow;
 
 import java.util.*;
-import java.util.concurrent.Semaphore;
+
+import static sun.swing.MenuItemLayoutHelper.max;
 
 /**
  * Created by vitorchagas on 20/09/16.
+ *
+ * Class responsable of managing the memory allocation and
+ * desallocation and the updates of the user interface.
  */
 public class SystemManager {
 
@@ -20,7 +23,8 @@ public class SystemManager {
     private Process so;
     private Timer timer;
     private Clock clock;
-    private int memoryUsed = 0;
+    private int memoryUsed;
+    private int maxMemoryUsed;
 
     private int totalWaitTime;
     private int finishedProcesses;
@@ -38,9 +42,11 @@ public class SystemManager {
         this.timer = new Timer();
         this.actualProcess = 0;
         this.controller = controller;
-        this.controller.setProcesses(getProcesses());
+        this.controller.setProcesses(this.processes);
         this.totalWaitTime = 0;
         this.finishedProcesses = 0;
+        this.memoryUsed = 0;
+        this.maxMemoryUsed = this.memoryUsed;
         this.clock = new Clock(this.controller.getClockLabel());
         clock.start();
     }
@@ -50,7 +56,7 @@ public class SystemManager {
         this.controller.allocateProcess(this.so, (double)so.getMemory() / memory.getTotalMemory(),
                                        (double)(memory.getTotalMemory() - so.getMemory()) / memory.getTotalMemory());
         this.memoryUsed += this.so.getMemory();
-
+        this.maxMemoryUsed = max(this.maxMemoryUsed, this.memoryUsed);
         TimerTask allocate = new TimerTask() {
             @Override
             public void run() {
@@ -69,41 +75,23 @@ public class SystemManager {
         int memoryPosition = this.memory.allocateProcess(process, this.allocationType);
 
         if(process.getTRealCreationProperty().getValue().equals("0")) {
-            process.setRealCreationTime(getClock().getTime());
-            process.getTRealCreationProperty().setValue(String.format("%d", getClock().getTime()));
+            process.setRealCreationTime(this.clock.getTime());
+            process.getTRealCreationProperty().setValue(String.format("%d", this.clock.getTime()));
         }
 
         // schedule desallocation of process
         if(memoryPosition != -1) {
 
-//            this.controller.getProcessesTable().setRowFactory(tv -> new TableRow<Process>() {
-//                @Override
-//                public void updateItem(Process item, boolean empty) {
-//
-//                    System.out.print("BBBBBB\n");
-//                    super.updateItem(item, empty) ;
-//                    if (item == null) {
-//                        setStyle("");
-//                    } else if (item.getId() == process.getId()) {
-//                        System.out.print("AAAAAA\n");
-//                        setStyle("-fx-background-color: tomato;");
-//                    } else {
-//                        setStyle("");
-//                    }
-//                }
-//            });
-
             process.getTAllocationProperty().setValue(String.format("%d", clock.getTime()));
-
             process.getTEndProperty().setValue(String.format("%d", clock.getTime() + process.getDuration()));
 
             this.memoryUsed += process.getMemory();
+            this.maxMemoryUsed = max(this.maxMemoryUsed, this.memoryUsed);
             this.controller.getMemoryUsedProperty().setValue(String.format("%d ( %.1f %% )",
                                       this.memoryUsed, (double) this.memoryUsed/ this.memory.getTotalMemory() * 100.0));
 
             if(this.processesQueue.contains(process)) {
                 this.processesQueue.remove(process);
-
                 this.controller.updateQueue(this.processesQueue);
             }
 
@@ -122,7 +110,7 @@ public class SystemManager {
                 public void run() {
                     try {
                         desallocateProcess(process);
-                    } catch (InterruptedException e) {
+                    } catch (InterruptedException ignored) {
 
                     }
                     this.cancel();
@@ -172,17 +160,15 @@ public class SystemManager {
                                       this.memoryUsed, (double) this.memoryUsed/ this.memory.getTotalMemory() * 100.0));
 
         if(this.finishedProcesses == this.processes.size()) {
-            getClock().flag = false;
-            this.clock = null;
+            this.finish();
 
         }
 
         List syncProcessQueue = Collections.synchronizedList(this.processesQueue);
-
         try {
             synchronized (syncProcessQueue) {
-                for (Iterator it = syncProcessQueue.iterator(); it.hasNext(); ) {
-                    Process p = syncProcessQueue.isEmpty() ? null : (Process) it.next();
+                for (Object processObject : syncProcessQueue) {
+                    Process p = syncProcessQueue.isEmpty() ? null : (Process) processObject;
                     this.allocateProcess(p);
                 }
             }
@@ -192,11 +178,12 @@ public class SystemManager {
 
     }
 
-    public ArrayList<Process> getProcesses() {
-        return processes;
+    private void finish() {
+        this.clock.flag = false;
+        this.clock = null;
+
+        System.out.println("--- End of simulation ---");
+        System.out.printf("Maximum of memory used: %d (%.1f%%)\n", maxMemoryUsed, (double)maxMemoryUsed / memory.getTotalMemory());
     }
 
-    public Clock getClock() {
-        return clock;
-    }
 }

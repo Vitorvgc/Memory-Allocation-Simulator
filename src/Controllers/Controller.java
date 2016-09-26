@@ -12,22 +12,19 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Paint;
-import sample.Clock;
 import sample.Process;
-import sample.SystemManager;
 
-import java.lang.reflect.Array;
 import java.util.*;
-import java.util.concurrent.Semaphore;
 
-
+/**
+ * Controller that manages the attributes of the main screen.
+ */
 public class Controller {
 
     private static int MEMORY_HEIGHT = 550;
 
     private ArrayList<ProcessNode> processes;
-    private ProcessNode so;
+    //private ProcessNode so;
 
     @FXML
     private Pane memoryPane;
@@ -77,7 +74,7 @@ public class Controller {
         this.tEndColumn.setCellValueFactory(cellData -> cellData.getValue().getTEndProperty());
         this.tWaitColumn.setCellValueFactory(cellData -> cellData.getValue().getTWaitProperty());
 
-        for(TableColumn col : getProcessesTable().getColumns()) {
+        for(TableColumn col : this.processesTable.getColumns()) {
             col.setStyle("-fx-alignment: CENTER;");
         }
         this.tCreationColumn.setStyle("-fx-alignment: CENTER;");
@@ -121,8 +118,8 @@ public class Controller {
 
         try {
             synchronized (safeProcesses) {
-                for (Iterator it = safeProcesses.iterator(); it.hasNext(); ) {
-                    ProcessNode p = safeProcesses.isEmpty() ? null : (ProcessNode) it.next();
+                for (Object safeProcess : safeProcesses) {
+                    ProcessNode p = safeProcesses.isEmpty() ? null : (ProcessNode) safeProcess;
                     if (p == null) break;
                     if (p.getProcess().getId() == process.getId()) {
                         Platform.runLater(() -> this.memoryPane.getChildren().remove(p));
@@ -156,9 +153,10 @@ public class Controller {
     }
 
     public void setProcesses(ArrayList<Process> totalProcesses) {
-        for(Process process : totalProcesses) {
-            dataTable.add(process);
-        }
+//        for(Process process : totalProcesses) {
+//            dataTable.add(process);
+//        }
+        dataTable.addAll(totalProcesses);
     }
 
     public Label getClockLabel() {
@@ -169,7 +167,7 @@ public class Controller {
 
     public StringProperty getAverageWaitingTimeProperty() { return averageWaitingTimeProperty; }
 
-    public TableView<Process> getProcessesTable() {
-        return processesTable;
-    }
+//    public TableView<Process> getProcessesTable() {
+//        return processesTable;
+//    }
 }

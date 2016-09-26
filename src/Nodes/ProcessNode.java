@@ -9,6 +9,8 @@ import sample.Process;
 
 /**
  * Created by Vítor on 21/09/2016.
+ *
+ * Custom node that represents a process in the memory.
  */
 public class ProcessNode extends AnchorPane {
 
@@ -23,7 +25,7 @@ public class ProcessNode extends AnchorPane {
         this.process = process;
 
         this.initSprite(height);
-        this.initIdText(height);
+        this.initIdText();
 
         this.getChildren().add(this.sprite);
         this.getChildren().add(this.idText);
@@ -38,7 +40,7 @@ public class ProcessNode extends AnchorPane {
         this.sprite.setStrokeWidth(2);
     }
 
-    private void initIdText(double height) {
+    private void initIdText() {
         this.idText = new Label(String.format("P%d", this.process.getId()));
         if(this.process.getId() == 0) {
             this.idText.setText("SO");

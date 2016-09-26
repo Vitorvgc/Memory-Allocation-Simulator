@@ -19,6 +19,8 @@ import java.util.ArrayList;
 
 /**
  * Created by edvaldojunior on 20/09/16.
+ *
+ * Controller of the configuratios screen.
  */
 public class ConfigurationController {
 

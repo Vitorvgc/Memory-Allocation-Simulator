@@ -2,6 +2,8 @@ package Enums;
 
 /**
  * Created by vitorchagas on 22/09/16.
+ *
+ * Enum that contains the constants used in the program.
  */
 public enum Constants {
 

@@ -2,20 +2,20 @@ package sample;
 
 import Enums.Constants;
 import javafx.beans.property.StringProperty;
-import javafx.scene.layout.ConstraintsBase;
 
 /**
  * Created by Edy Junior on 22/09/2016.
+ *
+ * Thread that representes a countdown, used in main
+ * screen's table to update the processes duration
  */
 public class TimeCounter extends Thread {
 
-    private int time;
     private StringProperty timeProperty;
 
     public TimeCounter(StringProperty timeProperty) {
 
         this.timeProperty = timeProperty;
-        this.time = Integer.parseInt(timeProperty.get());
     }
 
     @Override

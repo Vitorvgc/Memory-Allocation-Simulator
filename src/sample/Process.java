@@ -5,10 +5,13 @@ import javafx.beans.property.StringProperty;
 
 import java.util.Random;
 
-import static jdk.nashorn.internal.objects.NativeMath.min;
 
 /**
  * Created by Vítor on 17/09/2016.
+ *
+ * Class that contains the data of a process,
+ * such as its creation time, duration and
+ * memory occupied.
  */
 public class Process {
 

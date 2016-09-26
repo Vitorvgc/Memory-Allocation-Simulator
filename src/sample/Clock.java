@@ -1,12 +1,14 @@
 package sample;
 
 import Enums.Constants;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import javafx.application.Platform;
 import javafx.scene.control.Label;
 
 /**
  * Created by edvaldojunior on 22/09/16.
+ *
+ * Thread that simulates a clock, with a second delay
+ * of the constant TIME_SECOND set in the enum Constants.
  */
 public class Clock extends Thread {
 
@@ -25,7 +27,7 @@ public class Clock extends Thread {
     public void run() {
 
         long times[] = {System.currentTimeMillis(), System.currentTimeMillis()};
-        for (; flag; ) {
+        while(flag) {
             long aux[] = {System.currentTimeMillis(), System.currentTimeMillis()};
             if (aux[0] - times[0] >= Constants.TIME_SECOND.getValue()) {
                 time++;
